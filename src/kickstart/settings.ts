@@ -4,10 +4,13 @@ export class Settings {
   interval: number = 100;
 
   /** polling attempts, defaults to 100 */
-  attempts: number = 10; // 100;
+  attempts: number = 30; // 100;
 
   /** if it should fail silently, defaults to false */
   silent: boolean = false;
+
+
+  reject: boolean = true;
 
   /** The name of this kickstart - to better track issues */
   name: string = 'kickstart';

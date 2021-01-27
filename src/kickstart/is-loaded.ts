@@ -33,9 +33,12 @@ export class IsLoaded {
       var result = parent.check();
 
       // if all is ok (true) then complete the promise
-      if(result.ready) resolve(result);
+      if(result.ready) resolve( { ...result, attempts: parent.attempts });
 
-      if(parent.attempts++ >= parent.settings.attempts) reject('tried more than max attempts');
+      if(parent.attempts++ >= parent.settings.attempts) {
+        resolve({ ...result, message: 'tried up to max attempts: ' + result.message, attempts: parent.attempts });
+        return;
+      }
 
       // If the condition isn't met but the timeout hasn't elapsed, go again
       setTimeout(checkCondition, parent.settings.interval, resolve, reject);

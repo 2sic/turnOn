@@ -15,6 +15,7 @@ export class ConditionMaker {
 
   fnChecker(fn: () => boolean): () => Status {
     return () => { return {
+        name: fn.toString(),
         ready: fn(),
         message: ''
       } as Status;
@@ -26,15 +27,14 @@ export class ConditionMaker {
    * @param key 
    */
   keyChecker(key: string): () => Status {
-    const alwaysTrue = () => true;
     // empty-ish strings - always say it's done
-    if (!key) return () => Status.create(true, 'empty key');
+    if (!key) return () => Status.create(true, 'empty key', key);
 
     const parts = key.split('.');
     if (parts.length > 0 && parts[0] == 'window')
       parts.shift();
 
-    if (parts.length == 0) return () => Status.create(true, 'no keys except maybe windows found');
+    if (parts.length == 0) return () => Status.create(true, 'no keys except maybe windows found', key);
 
     return () => {
       let parent = window as any;
@@ -49,9 +49,9 @@ export class ConditionMaker {
         match += '.' + part;
 
         // if we got to the end, it's good
-        if (i == parts.length - 1) return Status.create(true, 'all keys matched'); 
+        if (i == parts.length - 1) return Status.create(true, 'all keys matched', key); 
       }
-      return Status.create(false, `Not all keys matched yet. So far '${match}' worked.`);
+      return Status.create(false, `Not all keys matched yet. So far '${match}' worked.`, key);
     }
   }
 }

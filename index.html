@@ -39,10 +39,10 @@
     <h2>Deep object tests</h2>
     <h3>Waiting for <code>window.deep.sub.property</code></h3>
     <script>
-      kickstart.await('window.deep.sub.property').then(() => alert(`it works and cotains ${window.deep.sub.property}`));
+      kickstart.await('window.deep.deeper.property').then(() => alert(`it works and cotains ${window.deep.deeper.property}`));
     </script>
     <button onclick="window.deep = 'demo'">Set window.deep (nothing should happen)</button>
-    <button onclick="window.deep = { sub : { property: 'deep-prop set' }}">Set window.deep.sub.property</button>
+    <button onclick="window.deep = { deeper : { property: 'deep-prop set' }}">Set window.deep.deeper.property</button>
     <hr>
   </body>
 </html>

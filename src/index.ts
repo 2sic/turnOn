@@ -1,8 +1,6 @@
-import { IsLoaded, Kickstart, Settings } from './kickstart';
 
-// const test = new IsLoaded(() => Math.random() < 0.5, new Settings());
+import { Kickstart } from './kickstart';
 
-// test.asPromise().then(() => console.log('ok', test.attempts));
 
 const win = window as any;
 if (!win.kickstart) win.kickstart = new Kickstart();
