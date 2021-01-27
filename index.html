@@ -1,12 +1,48 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="./dist/bundle.js"></script>
+    <script src="./dist/index.js"></script>
   </head>
 
   <body>
-    <h1>Tests!</h1>
+    <h1>Test Kickstart!</h1>
+    <div>
+      If you see this page, you can start testing <strong>Kickstart</strong>. 
+      In the background there are currently watchers set up waiting for things to become ready, so that JS scripts can be started. 
+      Below you'll find various samples & test-cases so you can see it in action. 
+    </div>
+    <div>
+      Important: by default there is a 10 second timeout, so after that you'll see errors in the console, and the watchers will not watch any more. 
+      So if you're playing around with this, do note that you'll need to refresh the page a few times to try everything :).
+    </div>
+    <script>
+      setTimeout(() => alert("The 10 second timout has now expired, so the normal watchers will stop watching. Refresh the page to try anything else."), 10000);
+    </script>
+    <hr>
 
+    <h2>Simple tests</h2>
+    <h3>Simple test - waiting for <code>window.simple</code></h3>
+    <script>
+      kickstart.await('simple').then(() => alert(`simple now exists and contains ${window.simple}`));
+    </script>
+    <button onclick="window.simple = 'demo'">Set window.simple</button>
+    <hr>
 
+    <h3>Simple second test - waiting for <code>window.second and window.zwei</code></h3>
+    <script>
+      kickstart.await(['second', 'zwei']).then(() => alert(`second and zwei now exist`));
+    </script>
+    <button onclick="window.second = 'demo'">Set window.second</button>
+    <button onclick="window.zwei = 'demo'">Set window.zwei</button>
+    <hr>
+    
+    <h2>Deep object tests</h2>
+    <h3>Waiting for <code>window.deep.sub.property</code></h3>
+    <script>
+      kickstart.await('window.deep.sub.property').then(() => alert(`it works and cotains ${window.deep.sub.property}`));
+    </script>
+    <button onclick="window.deep = 'demo'">Set window.deep (nothing should happen)</button>
+    <button onclick="window.deep = { sub : { property: 'deep-prop set' }}">Set window.deep.sub.property</button>
+    <hr>
   </body>
 </html>
