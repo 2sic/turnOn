@@ -1,4 +1,4 @@
-import { ConditionMaker, Settings, StringOrFn } from '.';
+import { ConditionMaker, Settings, Status, StringOrFn } from '.';
 import { IsLoaded } from './is-loaded';
 
 export class Kickstart {
@@ -18,7 +18,7 @@ export class Kickstart {
     return new Kickstart(settings);
   }
 
-  public await(conditions: StringOrFn | StringOrFn[]): Promise<boolean[]> {
+  public await(conditions: StringOrFn | StringOrFn[]): Promise<Status[]> {
 
     // re-wrap to ensure we always work with an array
     const conditionsArray = (Array.isArray(conditions)) ? conditions : [conditions];

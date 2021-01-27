@@ -1,8 +1,19 @@
 
-export interface Status {
+export class Status {
   /** Status if the check has been successful */
-  ready: boolean;
+  ready: boolean = false;
 
   /** Status message if provided */
-  message: string;
+  message: string = '';
+
+  public static create(ready: boolean, message: string) {
+    return {
+      ready, message
+    } as Status;
+  }
+}
+
+export class StatusWithAttempts extends Status {
+  /** Amount of attempts tried till this  */
+  attempts = 0;
 }
