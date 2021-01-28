@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../dist/index.js"></script>
+  </head>
+
+  <body>
+    <h1>turnOn using Promise</h1>
+    <p>
+      One of the goals of <code>turnOn</code> is to be very versatile. So the conditions can also be a promise. 
+    </p>
+    <hr>
+
+    <h2>Simple Promise</h2>
+    <h3>Simple test - waiting for <code>Promise&lt;boolean&gt;</code> to complete.</h3>
+    <p>
+      These two promises will complete in 2 and 3 seconds. 
+    </p>
+    <script>
+      // todo
+      turnOn
+        .await([
+          new Promise(resolve => setTimeout(() => resolve(true), 1000)).then(() => console.log('first promise done.')),
+          new Promise(resolve => setTimeout(() => resolve(true), 2000)).then(() => console.log('second promise done')),
+        ])
+        .then(() => alert(`the promises completed`));
+    </script>
+    <hr>
+
+  </body>
+</html>

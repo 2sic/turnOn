@@ -23,7 +23,7 @@ new TurnOn()
     'window.$',
     // do custom check
     () => window.something?.deeper?.andDeeper != null,
-    // add script tag to load
+    // add script tag to load (not implemented yet)
     'https://some-cdn.org/something.js",
   ], {
     interval: 100,
@@ -37,6 +37,10 @@ new TurnOn()
 The solution is written in Typescript and is plain vanilla, no other dependencies used. 
 
 ## Todo
+
+1. Create NPM package
+1. Ensure NPM package also has type definitions
+1. add feature to add url to CDN
 
 Notes to follow up
 

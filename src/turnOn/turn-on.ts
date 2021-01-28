@@ -1,5 +1,6 @@
 import { ConditionMaker, IsLoaded, Settings, Status, ConditionRaw, DefaultSettings, LogDebug, LogSilent, StatusSummary } from '.';
 import { FailReject, FailResolve, FailSilent } from './settings';
+import { booleanToStatusPromise } from './promise-boolean-to-status';
 export class TurnOn {
 
   /** The settings applied to this turnOn */
@@ -34,9 +35,14 @@ export class TurnOn {
 
     // convert conditions to promises
     const loadedCheckers = conditionsArray.map(c => {
-      const condition = this._conditionMaker.generate(c);
-      var loaded = new IsLoaded(condition, this.settings);
-      return loaded.asPromise();  
+      // do this for non-promise conditions
+      if (Promise.resolve(c as unknown) === c) {
+        return booleanToStatusPromise(c);
+      } else {
+        const condition = this._conditionMaker.make(c);
+        var loaded = new IsLoaded(condition, this.settings);
+        return loaded.asPromise();  
+      }
     });
 
     // keep the current turnOn-object for reference in methods

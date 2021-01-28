@@ -1,15 +1,21 @@
 import { Condition, ConditionRaw } from '.';
 import { Status } from './status';
 
-
+/**
+ * Internal class to generate is-it-ready checkers
+ */
 export class ConditionMaker {
 
-  public generate(condition: ConditionRaw): Condition {
+  /**
+   * Make a new condition checker
+   */
+  public make(condition: ConditionRaw): Condition {
     if (typeof(condition) === 'function')
       return this.fnChecker(condition);
     
     if (typeof(condition) === 'string')
       return this.keyChecker(condition);
+
   }
 
 

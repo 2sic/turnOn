@@ -14,7 +14,7 @@ export class Settings {
   interval: number = 100;
 
   /** polling attempts, defaults to 100 */
-  attempts: number = 30; // 100;
+  attempts: number = 50; // 100;
  
   /** What to log into the console */
   log: typeof LogError | typeof LogDebug | typeof LogSilent = LogError;
