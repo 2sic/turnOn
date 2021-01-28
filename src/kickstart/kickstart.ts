@@ -1,6 +1,6 @@
 import { ConditionMaker, IsLoaded, Settings, Status, ConditionRaw, DefaultSettings, LogDebug, LogSilent, StatusSummary } from '.';
 import { FailReject, FailResolve, FailSilent } from './settings';
-export class Kickstart {
+export class TurnOn {
 
   /** The settings applied to this Kickstart */
   public settings = new Settings();
@@ -16,7 +16,7 @@ export class Kickstart {
     if (nameOrSettings)
       this.settings = { ...this.settings, ...nameOrSettings };
 
-    Kickstart.count++;
+    TurnOn.count++;
   }
 
   /**
@@ -24,7 +24,7 @@ export class Kickstart {
    * Mainly usefuly in global scenarios, to give it a separate name
    */
   new(nameOrSettings?: Partial<Settings>) {
-    return new Kickstart(nameOrSettings);
+    return new TurnOn(nameOrSettings);
   }
 
   public await(conditions: ConditionRaw | ConditionRaw[]): Promise<Status> {
@@ -43,7 +43,7 @@ export class Kickstart {
     const thisKs = this;
 
     // keep count as it was on start, to ensure it doesn't change any more till we log the error
-    const instanceCount = Kickstart.count;
+    const instanceCount = TurnOn.count;
 
     let flattened = new Promise<StatusSummary>((resolve, reject) => { 
       // return a single promise for all inner promises which either fail or resolve

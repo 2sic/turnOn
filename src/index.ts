@@ -1,6 +1,5 @@
 
-import { Kickstart } from './kickstart';
-
+import { TurnOn } from './kickstart';
 
 const win = window as any;
-if (!win.kickstart) win.kickstart = new Kickstart();
+if (!win.turnOn) win.turnOn = new TurnOn();

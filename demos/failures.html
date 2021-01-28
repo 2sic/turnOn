@@ -21,7 +21,7 @@
           This will wait for a value - and as it won't appear, it will throw a JS error in the console.
         </p>
         <script>
-          kickstart
+          turnOn
             .new('failure1')
             .await('window.failure1')
             .then(() => alert(`you won't see this`));
@@ -33,7 +33,7 @@
           This will wait for a value - and there is a promise-catch so an error shouldn't occur. Wait for 10 seconds to see it happen.
         </p>
         <script>
-          kickstart
+          turnOn
             .new('failure2')
             .await('window.failure2')
             .then(() => alert(`you won't see this`))
@@ -50,7 +50,7 @@
           This will wait for a value - but on failure still run <code>then()</code> with a status.
         </p>
         <script>
-          kickstart
+          turnOn
             .new({
               name: 'failure3',
               failure: 'resolve',
@@ -66,7 +66,7 @@
           <em>Note that you will see a log entry in the console, because logging isn't silent.</em>
         </p>
         <script>
-          kickstart
+          turnOn
             .new({
               name: 'failure4',
               failure: 'silent',

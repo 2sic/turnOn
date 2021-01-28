@@ -24,7 +24,7 @@
     <h3>Simple test - waiting for <code>window.simple</code></h3>
     <script>
       // basic sample, just use quickstart with default settings
-      kickstart
+      turnOn
         .await('simple')
         .then(() => alert(`simple now exists and contains ${window.simple}`));
     </script>
@@ -35,7 +35,7 @@
     <script>
       // create another kickstart and give it a name
       // it's not necessary, but especially on a page with many kickstarts it makes debuging easier
-      kickstart
+      turnOn
         .new('second')
         .await(['second', 'zwei'])
         .then(() => alert(`second and zwei now exist`));
@@ -47,7 +47,7 @@
     <h2>Deep object tests</h2>
     <h3>Waiting for <code>window.deep.sub.property</code></h3>
     <script>
-      kickstart
+      turnOn
         .new('deep')
         .await('window.deep.deeper.property')
         .then(() => alert(`it works and contains ${window.deep.deeper.property}`));
