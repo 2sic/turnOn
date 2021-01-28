@@ -1,6 +1,6 @@
 import { ConditionMaker, IsLoaded, Settings, Status, ConditionRaw, DefaultSettings, LogDebug, LogSilent, StatusSummary } from '.';
 import { FailReject, FailResolve, FailSilent } from './settings';
-import { booleanToStatusPromise } from './promise-boolean-to-status';
+import { promiseBoolToStatus } from './promise-boolean-to-status';
 export class TurnOn {
 
   /** The settings applied to this turnOn */
@@ -37,7 +37,7 @@ export class TurnOn {
     const loadedCheckers = conditionsArray.map(c => {
       // do this for non-promise conditions
       if (Promise.resolve(c as unknown) === c) {
-        return booleanToStatusPromise(c);
+        return promiseBoolToStatus(c);
       } else {
         const condition = this._conditionMaker.make(c);
         var loaded = new IsLoaded(condition, this.settings);
