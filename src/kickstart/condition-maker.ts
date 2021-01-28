@@ -1,10 +1,10 @@
-import { StringOrFn } from '.';
+import { Condition, ConditionRaw } from '.';
 import { Status } from './status';
 
 
 export class ConditionMaker {
 
-  public generate(condition: StringOrFn): () => Status {
+  public generate(condition: ConditionRaw): Condition {
     if (typeof(condition) === 'function')
       return this.fnChecker(condition);
     
@@ -13,9 +13,12 @@ export class ConditionMaker {
   }
 
 
-  fnChecker(fn: () => boolean): () => Status {
-    return () => { return {
-        name: fn.toString(),
+  fnChecker(fn: () => boolean): Condition {
+    let name = fn.toString();
+    if (name && name.length > 25) name = name.substr(0, 25);
+    return () => { 
+      return {
+        name,
         ready: fn(),
         message: ''
       } as Status;
@@ -26,15 +29,15 @@ export class ConditionMaker {
    * Create a checker which verifies if a key or key-sequence on window exists
    * @param key 
    */
-  keyChecker(key: string): () => Status {
+  keyChecker(key: string): Condition {
     // empty-ish strings - always say it's done
-    if (!key) return () => Status.create(true, 'empty key', key);
+    if (!key) return () => new Status(true, 'empty key', key);
 
     const parts = key.split('.');
     if (parts.length > 0 && parts[0] == 'window')
       parts.shift();
 
-    if (parts.length == 0) return () => Status.create(true, 'no keys except maybe windows found', key);
+    if (parts.length == 0) return () => new Status(true, 'no keys except maybe windows found', key);
 
     return () => {
       let parent = window as any;
@@ -49,9 +52,9 @@ export class ConditionMaker {
         match += '.' + part;
 
         // if we got to the end, it's good
-        if (i == parts.length - 1) return Status.create(true, 'all keys matched', key); 
+        if (i == parts.length - 1) return new Status(true, 'all keys matched', key); 
       }
-      return Status.create(false, `Not all keys matched yet. So far '${match}' worked.`, key);
+      return new Status(false, `Not all keys matched yet. So far '${match}' worked.`, key);
     }
   }
 }

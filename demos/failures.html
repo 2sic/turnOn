@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../dist/index.js"></script>
+  </head>
+
+  <body>
+    <h1>Kickstart! Failure Handling</h1>
+    <p>
+      This page shows examples how to handle failures. 
+    </p>
+    <p>
+      Important: Wait for the timeout to see errors and messages in the console. 
+    </p>
+
+    <h2>Default Failures using Promise <code>catch(...)</code></h2>
+    <ol>
+      <li>
+        <h3>Wait for <code>window.failure1</code> without catch</h3>
+        <p>
+          This will wait for a value - and as it won't appear, it will throw a JS error in the console.
+        </p>
+        <script>
+          kickstart
+            .new('failure1')
+            .await('window.failure1')
+            .then(() => alert(`you won't see this`));
+        </script>    
+      </li>
+      <li>
+        <h3>Wait for <code>window.failure2</code> with catch</h3>
+        <p>
+          This will wait for a value - and there is a promise-catch so an error shouldn't occur. Wait for 10 seconds to see it happen.
+        </p>
+        <script>
+          kickstart
+            .new('failure2')
+            .await('window.failure2')
+            .then(() => alert(`you won't see this`))
+            .catch(() => console.log('failure2 failed but was caught in the catch'));
+        </script>    
+      </li>
+    </ol>
+    <hr>
+    <h2>Reconfigure failure to not need catch</h2>
+    <ol>
+      <li>
+        <h3>Wait for <code>window.failure3</code> but expect a then even if failed</h3>
+        <p>
+          This will wait for a value - but on failure still run <code>then()</code> with a status.
+        </p>
+        <script>
+          kickstart
+            .new({
+              name: 'failure3',
+              failure: 'resolve',
+            })
+            .await(['window.failure3a', 'window.failure3b'])
+            .then((status) => console.log(`Status on failure3 returned ${status.ready} - we had ${status.details.length} conditions - message is '${status.message}'`));
+        </script>
+      </li>
+      <li>
+        <h3>Wait for <code>window.failure4</code> but just never finish the promise</h3>
+        <p>
+          This will wait for a value. Since it's configured as silent, it will simply never fire.
+          <em>Note that you will see a log entry in the console, because logging isn't silent.</em>
+        </p>
+        <script>
+          kickstart
+            .new({
+              name: 'failure4',
+              failure: 'silent',
+            })
+            .await('window.failure4')
+            .then((status) => console.log(`failure4 will never fire - you should not see this`));
+        </script>
+
+      </li>
+    </ol>
+    <hr>
+    
+  </body>
+</html>

@@ -2,6 +2,8 @@
 
 The goal of this small JS library is to help with dynamic loading JavaScripts. It should assist in loading these and waiting till they are loaded. 
 
+Try / discover it by opening `demos/index.html`
+
 The API is still far from final, but in the end it should look a bit like this:
 
 ```js

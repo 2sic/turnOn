@@ -1,2 +1,6 @@
+import { Status } from '.';
 
-export type StringOrFn = string | (() => boolean);
+export type Condition = () => Status;
+
+export type ConditionRaw = string | (() => boolean);
+

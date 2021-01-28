@@ -5,3 +5,4 @@ export * from './kickstart';
 export * from './is-loaded';
 export * from './settings';
 export * from './status';
+export * from './status-summary';

@@ -9,13 +9,13 @@ export class IsLoaded {
     this.settings = settings;
   }
 
-  public lastStatus: Status = Status.create(false, 'condition not checked yet');
+  public lastStatus: Status = new Status(false, 'condition not checked yet');
   public attempts = 0;
 
   /**
    * Dummy innerCheck function - should be replaced in the constructor
    */
-  public innerCheck(): Status { return Status.create(true, 'no condition defined') } ;
+  public innerCheck(): Status { return new Status(true, 'no condition defined') } ;
 
   public check(): Status {
     if (this.lastStatus.ready) return this.lastStatus;
