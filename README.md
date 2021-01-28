@@ -1,4 +1,4 @@
-# experimental-js-dynamic-loader
+# turnOn JavaScript Boot Helper
 
 The goal of this small JS library is to help with dynamic loading JavaScripts. It should assist in loading these and waiting till they are loaded. 
 
@@ -7,7 +7,8 @@ Try / discover it by opening `demos/index.html`
 The API is still far from final, but in the end it should look a bit like this:
 
 ```js
-new Kickstart()
+// this is what your typescript code would look like
+new TurnOn()
   .await('window.yourJsExtension')
   .then(() => yourJsExtension.start());
 ```
@@ -15,7 +16,7 @@ new Kickstart()
 More sophisticated samples will be like this:
 
 ```typescript
-new Kickstart()
+new TurnOn()
   .await([
     // check for keys on window
     'window.yourJsExtension',
@@ -31,6 +32,11 @@ new Kickstart()
   .then(() => window.yourJsExtension.Start());
 ```
 
+## Nice to Know
+
+The solution is written in Typescript and is plain vanilla, no other dependencies used. 
+
+## Todo
 
 Notes to follow up
 

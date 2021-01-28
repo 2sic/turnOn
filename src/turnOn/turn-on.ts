@@ -2,7 +2,7 @@ import { ConditionMaker, IsLoaded, Settings, Status, ConditionRaw, DefaultSettin
 import { FailReject, FailResolve, FailSilent } from './settings';
 export class TurnOn {
 
-  /** The settings applied to this Kickstart */
+  /** The settings applied to this turnOn */
   public settings = new Settings();
 
   /** Constructor with optional settings */
@@ -20,7 +20,7 @@ export class TurnOn {
   }
 
   /**
-   * Create a new kickstart object.
+   * Create a new turnOn object.
    * Mainly usefuly in global scenarios, to give it a separate name
    */
   new(nameOrSettings?: Partial<Settings>) {
@@ -39,7 +39,7 @@ export class TurnOn {
       return loaded.asPromise();  
     });
 
-    // keep the current kickstart-object for reference in methods
+    // keep the current turnOn-object for reference in methods
     const thisKs = this;
 
     // keep count as it was on start, to ensure it doesn't change any more till we log the error
@@ -75,7 +75,7 @@ export class TurnOn {
   }
 
   public logStatusList(id: number, settings: Settings, statusList: Status[]) {
-    console.log(`Kickstart #${id} `
+    console.log(`turnOn #${id} `
     + (settings.name !== DefaultSettings.name ? `"${settings.name}" ` : '')
     + `couldn't complete because some conditions were not met. See details: `, statusList);
   }

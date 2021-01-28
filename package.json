@@ -1,7 +1,7 @@
 {
   "name": "experimental-js-dynamic-loader",
   "version": "0.0.1",
-  "description": "Experimental system to detect loaded scripts etc.",
+  "description": "turnOn is a JavaScript boot helper, which ensures that all dependencies are loaded before your application starts.",
   "main": "index.js",
   "scripts": {
     "build": "webpack --watch",
@@ -23,7 +23,5 @@
     "webpack": "^5.18.0",
     "webpack-cli": "^4.4.0"
   },
-  "dependencies": {
-    "poll-until-promise": "^3.6.0"
-  }
+  "dependencies": {}
 }

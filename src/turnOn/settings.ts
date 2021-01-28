@@ -27,8 +27,8 @@ export class Settings {
    */
   failure: typeof FailReject | typeof FailResolve | typeof FailSilent = FailReject;
 
-  /** The name of this kickstart - to better track issues */
-  name: string = 'kickstart';
+  /** The name of this turnOn - to better track issues */
+  name: string = 'turnOn';
 }
 
 export const DefaultSettings = new Settings();
