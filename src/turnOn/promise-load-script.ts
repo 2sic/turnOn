@@ -27,3 +27,54 @@ function promiseLoadScript(src: string) {
     t.parentElement.insertBefore(s, t);
   });
 }
+
+
+// other code from 2sxc UI
+
+// private insertToDom(files: LoadFile[], callback: () => any, increment: number) {
+//   const file = files[increment];
+//   increment++;
+//   if (!file) {
+//     callback();
+//     return;
+//   }
+//   file.path = file.path + '?sxcver=' + sxcVersion; // break cache
+
+//   const existing = this.loadedFiles.find(loadedFile => loadedFile.path === file.path);
+//   if (existing) {
+//     if (existing.loaded) {
+//       this.insertToDom(files, callback, increment);
+//     } else {
+//       const _listener = () => {
+//         file.loaded = true;
+//         this.insertToDom(files, callback, increment);
+//         existing.domEl.removeEventListener('load', _listener);
+//         existing.domEl.removeEventListener('error', _listener);
+//       };
+//       existing.domEl.addEventListener('load', _listener);
+//       existing.domEl.addEventListener('error', _listener);
+//     }
+//   } else {
+//     if (file.type === FileTypeConstants.CSS) {
+//       file.domEl = document.createElement('link');
+//       file.domEl.rel = 'stylesheet';
+//       file.domEl.href = file.path;
+//     } else if (file.type === FileTypeConstants.JS) {
+//       file.domEl = document.createElement('script');
+//       file.domEl.type = 'module';
+//       file.domEl.src = file.path;
+//     }
+
+//     const _listener = () => {
+//       file.loaded = true;
+//       this.insertToDom(files, callback, increment);
+//       file.domEl.removeEventListener('load', _listener);
+//       file.domEl.removeEventListener('error', _listener);
+//     };
+//     file.domEl.addEventListener('load', _listener);
+//     file.domEl.addEventListener('error', _listener);
+
+//     document.querySelector('head').appendChild(file.domEl);
+//     this.loadedFiles.push(file);
+//   }
+// }

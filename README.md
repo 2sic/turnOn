@@ -40,7 +40,8 @@ The solution is written in Typescript and is plain vanilla, no other dependencie
 
 1. Create NPM package
 1. Ensure NPM package also has type definitions
-1. add feature to add url to CDN
+1. add feature to get url from CDN etc.
+1. possibly also get css from a CDN?
 
 Notes to follow up
 
