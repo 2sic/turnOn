@@ -46,3 +46,40 @@ The solution is written in Typescript and is plain vanilla, no other dependencie
 Notes to follow up
 
 https://gist.github.com/james2doyle/28a59f8692cec6f334773007b31a1523
+
+
+
+
+## Thoughts 2021-05
+
+Because of CSP etc. we're considering a model like this
+
+<div turn-on='window.something.run'> 
+
+or
+
+<div turn-on='{ "await": ["window.yourJsExtension", "window.$", "window.yourApp.verifyReady()"], "run": "window.yourApp.start" }'>
+
+This would then kick off run once it's available. The call would then include a prepared object with various data to make the run do a better job. It would probably do this:
+
+1. put the original turn-on into turn-on-raw
+1. parse the turn-on and place the parsed object incl. progress etc. into turn-on
+
+The object handed into the run would contain a reference to the tag what had this, so additional data could be attache do that tag for intialization. The object is probably
+
+```ts
+{
+  turnOn: object,   //the current turn-on object
+  tag: HtmlElement, // the html tag which started the turn-on and might contain extra configuration
+
+}
+```
+
+
+```cs
+
+Needs.Js(...);
+
+
+
+```

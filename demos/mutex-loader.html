@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../dist/index.js"></script>
+  </head>
+
+  <body>
+    <h1>turnOn using Promise</h1>
+    <p>
+      One of the goals of <code>turnOn</code> is to be very versatile. So the conditions can also be a promise. 
+    </p>
+    <hr>
+
+    <h2>Simple Promise</h2>
+    <h3>Simple test - waiting for <code>Promise&lt;boolean&gt;</code> to complete.</h3>
+    <p>
+      These two promises will complete in 2 and 3 seconds. 
+    </p>
+
+    <div>
+      <div>
+        <div>
+          <div turn-on='{ "run": "window.mutexStart()" }'>
+        </div>
+      </div>
+    </div>
+
+
+    </div>
+    <hr>
+
+    <script>
+      
+      function mutexStart() {
+
+      }
+
+    </script>
+
+  </body>
+</html>
