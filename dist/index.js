@@ -10,6 +10,26 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/configuration/config-tag.ts":
+/*!*****************************************!*\
+  !*** ./src/configuration/config-tag.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"ConfigTag\": () => /* binding */ ConfigTag\n/* harmony export */ });\n/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! .. */ \"./src/index.ts\");\n/* harmony import */ var _debug__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../debug */ \"./src/debug.ts\");\n\r\n\r\nvar ConfigTag = /** @class */ (function () {\r\n    function ConfigTag(tag, config) {\r\n        this.tag = tag;\r\n        this.config = config;\r\n    }\r\n    ConfigTag.prototype.syncDom = function () {\r\n        (0,_debug__WEBPACK_IMPORTED_MODULE_1__.log)('syncDom', this);\r\n        var tag = this.tag;\r\n        // set skip if missing and update json in html if not current\r\n        // Do these checks to avoid to many DOM changes\r\n        if (!tag.getAttribute(___WEBPACK_IMPORTED_MODULE_0__.attrSkip))\r\n            tag.setAttribute(___WEBPACK_IMPORTED_MODULE_0__.attrSkip, \"skip\");\r\n        var currentSerialized = JSON.stringify(this.config);\r\n        if (tag.getAttribute(___WEBPACK_IMPORTED_MODULE_0__.attrConfig) !== currentSerialized)\r\n            tag.setAttribute(___WEBPACK_IMPORTED_MODULE_0__.attrConfig, currentSerialized);\r\n    };\r\n    return ConfigTag;\r\n}());\r\n\r\n\n\n//# sourceURL=webpack://turnOn/./src/configuration/config-tag.ts?");
+
+/***/ }),
+
+/***/ "./src/configuration/configuration-stable.ts":
+/*!***************************************************!*\
+  !*** ./src/configuration/configuration-stable.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"loadConfigurationFromString\": () => /* binding */ loadConfigurationFromString\n/* harmony export */ });\n/* harmony import */ var _configuration__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./configuration */ \"./src/configuration/configuration.ts\");\n\r\nfunction loadConfigurationFromString(attr) {\r\n    var pretyped;\r\n    try {\r\n        pretyped = JSON.parse(attr);\r\n    }\r\n    catch (ex) {\r\n        return \"detected configuration but cannot parse to json.\";\r\n    }\r\n    var configuration;\r\n    try {\r\n        configuration = (0,_configuration__WEBPACK_IMPORTED_MODULE_0__.stabilizeConfiguration)(pretyped);\r\n    }\r\n    catch (ex) {\r\n        configuration = null;\r\n    }\r\n    if (configuration == null)\r\n        return \"loaded configuration but couldn't make sense of it.\";\r\n    return configuration;\r\n}\r\n\n\n//# sourceURL=webpack://turnOn/./src/configuration/configuration-stable.ts?");
+
+/***/ }),
+
 /***/ "./src/configuration/configuration.ts":
 /*!********************************************!*\
   !*** ./src/configuration/configuration.ts ***!
@@ -20,13 +40,43 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./src/configuration/index.ts":
+/*!************************************!*\
+  !*** ./src/configuration/index.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"stabilizeConfiguration\": () => /* reexport safe */ _configuration__WEBPACK_IMPORTED_MODULE_0__.stabilizeConfiguration,\n/* harmony export */   \"loadConfigurationFromString\": () => /* reexport safe */ _configuration_stable__WEBPACK_IMPORTED_MODULE_1__.loadConfigurationFromString,\n/* harmony export */   \"ConfigTag\": () => /* reexport safe */ _config_tag__WEBPACK_IMPORTED_MODULE_2__.ConfigTag\n/* harmony export */ });\n/* harmony import */ var _configuration__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./configuration */ \"./src/configuration/configuration.ts\");\n/* harmony import */ var _configuration_stable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./configuration-stable */ \"./src/configuration/configuration-stable.ts\");\n/* harmony import */ var _config_tag__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config-tag */ \"./src/configuration/config-tag.ts\");\n\r\n\r\n\r\n\n\n//# sourceURL=webpack://turnOn/./src/configuration/index.ts?");
+
+/***/ }),
+
+/***/ "./src/constants.ts":
+/*!**************************!*\
+  !*** ./src/constants.ts ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"attrConfig\": () => /* binding */ attrConfig,\n/* harmony export */   \"attrSkip\": () => /* binding */ attrSkip\n/* harmony export */ });\nvar attrConfig = 'turn-on';\r\nvar attrSkip = 'turn-on-skip';\r\n\n\n//# sourceURL=webpack://turnOn/./src/constants.ts?");
+
+/***/ }),
+
+/***/ "./src/debug.ts":
+/*!**********************!*\
+  !*** ./src/debug.ts ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"log\": () => /* binding */ log\n/* harmony export */ });\nvar debug = true;\r\nfunction log(message, obj1, obj2) {\r\n    if (!debug)\r\n        return;\r\n    if (obj2)\r\n        return console.log('turn-on: ' + message, obj1, obj2);\r\n    if (obj1)\r\n        return console.log('turn-on: ' + message, obj1);\r\n    console.log('turn-on: ' + message);\r\n}\r\n\n\n//# sourceURL=webpack://turnOn/./src/debug.ts?");
+
+/***/ }),
+
 /***/ "./src/index.ts":
 /*!**********************!*\
   !*** ./src/index.ts ***!
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _turnOn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./turnOn */ \"./src/turnOn/index.ts\");\n/* harmony import */ var _loader_loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./loader/loader */ \"./src/loader/loader.ts\");\n\r\n\r\n// import { MiniTestTest } from './mini';\r\nvar win = window;\r\nif (!win.turnOn)\r\n    win.turnOn = new _turnOn__WEBPACK_IMPORTED_MODULE_0__.TurnOn();\r\n_loader_loader__WEBPACK_IMPORTED_MODULE_1__.turnOnObserver.load();\r\n\n\n//# sourceURL=webpack://turnOn/./src/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"attrConfig\": () => /* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_0__.attrConfig,\n/* harmony export */   \"attrSkip\": () => /* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_0__.attrSkip,\n/* harmony export */   \"log\": () => /* reexport safe */ _debug__WEBPACK_IMPORTED_MODULE_1__.log\n/* harmony export */ });\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ \"./src/constants.ts\");\n/* harmony import */ var _debug__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./debug */ \"./src/debug.ts\");\n/* harmony import */ var _turnOn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./turnOn */ \"./src/turnOn/index.ts\");\n/* harmony import */ var _loader_loader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./loader/loader */ \"./src/loader/loader.ts\");\n\r\n\r\n\r\n\r\n// import { MiniTestTest } from './mini';\r\nvar win = window;\r\nif (!win.turnOn)\r\n    win.turnOn = new _turnOn__WEBPACK_IMPORTED_MODULE_2__.TurnOn();\r\n_loader_loader__WEBPACK_IMPORTED_MODULE_3__.turnOnObserver.load();\r\n\n\n//# sourceURL=webpack://turnOn/./src/index.ts?");
 
 /***/ }),
 
@@ -36,7 +86,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _tur
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"turnOnAttributeName\": () => /* binding */ turnOnAttributeName,\n/* harmony export */   \"turnOnObserver\": () => /* binding */ turnOnObserver\n/* harmony export */ });\n/* harmony import */ var _configuration_configuration__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../configuration/configuration */ \"./src/configuration/configuration.ts\");\n\r\nvar turnOnAttributeName = 'turn-on';\r\n/**\r\n * Options for the observer (which mutations to observe)\r\n */\r\nvar config = {\r\n    attributes: false,\r\n    childList: true,\r\n    subtree: true\r\n};\r\nvar debug = true;\r\nvar TurnOnObserver = /** @class */ (function () {\r\n    function TurnOnObserver() {\r\n    }\r\n    TurnOnObserver.prototype.load = function () {\r\n        var _this = this;\r\n        if (debug)\r\n            console.log('load');\r\n        var observer = new MutationObserver(function (mutations) {\r\n            // console.log('turnOn mutation');\r\n            // Loop through each changed item, check if it's something we want to initialize\r\n            mutations.forEach(function (m) {\r\n                // Nodes added - let's check if it is a turn-on\r\n                if (m.type != 'childList')\r\n                    return;\r\n                if (debug)\r\n                    console.log('hit children');\r\n                m.addedNodes.forEach(function (node) {\r\n                    var _a;\r\n                    var attr = (_a = node === null || node === void 0 ? void 0 : node.getAttribute) === null || _a === void 0 ? void 0 : _a.call(node, turnOnAttributeName);\r\n                    if (!attr)\r\n                        return;\r\n                    if (debug)\r\n                        console.log('attr', attr);\r\n                    var configOrError = _this.loadConfigurationFromAttribute(attr);\r\n                    if (typeof (configOrError) === 'string')\r\n                        console.error(configOrError, node, attr);\r\n                    // let pretyped: TurnOnConfigurationRaw;\r\n                    // try {\r\n                    //   pretyped = JSON.parse(attr);\r\n                    // }\r\n                    // catch (ex) {\r\n                    //   console.error(`turnOn detected configuration but cannot parse to json. Source: `, node, attr);\r\n                    //   return;\r\n                    // }\r\n                    // let configuration: TurnOnConfigurationStable;\r\n                    // try {\r\n                    //   configuration = stabilizeConfiguration(pretyped);\r\n                    // }\r\n                    // catch (ex) { configuration = null; }\r\n                    // if(configuration == null) {\r\n                    //   console.error(`turnOn loaded configuration but couldn't make sense of it. Source: `, node, pretyped);\r\n                    //   return;\r\n                    // }\r\n                });\r\n            });\r\n        });\r\n        // observe document\r\n        observer.observe(document.documentElement, config);\r\n        // observe header?\r\n    };\r\n    TurnOnObserver.prototype.loadConfigurationFromAttribute = function (attr) {\r\n        if (debug)\r\n            console.log('attr', attr);\r\n        var pretyped;\r\n        try {\r\n            pretyped = JSON.parse(attr);\r\n        }\r\n        catch (ex) {\r\n            // console.error(`turnOn detected configuration but cannot parse to json. Source: `, node, attr);\r\n            return \"turnOn detected configuration but cannot parse to json.\";\r\n        }\r\n        var configuration;\r\n        try {\r\n            configuration = (0,_configuration_configuration__WEBPACK_IMPORTED_MODULE_0__.stabilizeConfiguration)(pretyped);\r\n        }\r\n        catch (ex) {\r\n            configuration = null;\r\n        }\r\n        if (configuration == null) {\r\n            return \"turnOn loaded configuration but couldn't make sense of it.\";\r\n            // console.error(`turnOn loaded configuration but couldn't make sense of it. Source: `, node, pretyped);\r\n            // return;\r\n        }\r\n        return configuration;\r\n    };\r\n    return TurnOnObserver;\r\n}());\r\nvar turnOnObserver = new TurnOnObserver();\r\n\n\n//# sourceURL=webpack://turnOn/./src/loader/loader.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"turnOnObserver\": () => /* binding */ turnOnObserver\n/* harmony export */ });\n/* harmony import */ var _configuration__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../configuration */ \"./src/configuration/index.ts\");\n/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! .. */ \"./src/index.ts\");\n\r\n\r\n/**\r\n * Options for the observer (which mutations to observe)\r\n */\r\nvar config = {\r\n    attributes: false,\r\n    childList: true,\r\n    subtree: true\r\n};\r\nvar TurnOnObserver = /** @class */ (function () {\r\n    function TurnOnObserver() {\r\n        this.tags = new Array();\r\n    }\r\n    TurnOnObserver.prototype.load = function () {\r\n        var _this = this;\r\n        (0,___WEBPACK_IMPORTED_MODULE_1__.log)('load');\r\n        var observer = new MutationObserver(function (mutations) {\r\n            (0,___WEBPACK_IMPORTED_MODULE_1__.log)('turnOn mutation');\r\n            // Loop through each changed item, check if it's something we want to initialize\r\n            mutations.forEach(function (m) {\r\n                // Nodes added - let's check if it is a turn-on\r\n                if (m.type != 'childList')\r\n                    return;\r\n                (0,___WEBPACK_IMPORTED_MODULE_1__.log)('hit children');\r\n                m.addedNodes.forEach(function (node) {\r\n                    var _a, _b;\r\n                    // Get config and skip if not relevant, or skip if already marked as in the queue\r\n                    var attr = (_a = node === null || node === void 0 ? void 0 : node.getAttribute) === null || _a === void 0 ? void 0 : _a.call(node, ___WEBPACK_IMPORTED_MODULE_1__.attrConfig);\r\n                    if (!attr)\r\n                        return;\r\n                    var skip = (_b = node === null || node === void 0 ? void 0 : node.getAttribute) === null || _b === void 0 ? void 0 : _b.call(node, ___WEBPACK_IMPORTED_MODULE_1__.attrSkip);\r\n                    (0,___WEBPACK_IMPORTED_MODULE_1__.log)(skip);\r\n                    if (skip)\r\n                        return (0,___WEBPACK_IMPORTED_MODULE_1__.log)('skip');\r\n                    (0,___WEBPACK_IMPORTED_MODULE_1__.log)('attr', attr);\r\n                    var configOrError = (0,_configuration__WEBPACK_IMPORTED_MODULE_0__.loadConfigurationFromString)(attr);\r\n                    if (typeof (configOrError) === 'string') {\r\n                        console.error(configOrError, node, attr);\r\n                        return;\r\n                    }\r\n                    (0,___WEBPACK_IMPORTED_MODULE_1__.log)('stable config');\r\n                    _this.add(node, configOrError);\r\n                });\r\n            });\r\n            _this.updateTags();\r\n        });\r\n        // observe document for tags which include this. ATM don't observe header\r\n        observer.observe(document.documentElement, config);\r\n    };\r\n    TurnOnObserver.prototype.add = function (node, config) {\r\n        (0,___WEBPACK_IMPORTED_MODULE_1__.log)('add', node, config);\r\n        this.tags.push(new _configuration__WEBPACK_IMPORTED_MODULE_0__.ConfigTag(node, config));\r\n    };\r\n    TurnOnObserver.prototype.updateTags = function () {\r\n        (0,___WEBPACK_IMPORTED_MODULE_1__.log)(\"updateTags: \" + this.tags.length);\r\n        this.tags.forEach(function (t) { return t.syncDom(); });\r\n    };\r\n    return TurnOnObserver;\r\n}());\r\nvar turnOnObserver = new TurnOnObserver();\r\n\n\n//# sourceURL=webpack://turnOn/./src/loader/loader.ts?");
 
 /***/ }),
 
@@ -187,7 +237,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /************************************************************************/
 /******/ 	// startup
 /******/ 	// Load entry module
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	__webpack_require__("./src/index.ts");
-/******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;

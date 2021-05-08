@@ -1,4 +1,7 @@
 
+export * from './constants';
+export * from './debug';
+
 import { TurnOn } from './turnOn';
 import { turnOnObserver} from './loader/loader';
 
