@@ -13,7 +13,7 @@ export interface TurnOnConfigurationRaw {
 
 
 export interface TurnOnConfigurationStable {
-  await: any[];
+  awaits: any[];
 
   run: string;
 
@@ -25,12 +25,17 @@ export function stabilizeConfiguration(raw: TurnOnConfigurationRaw) {
 
   if(!raw.run) return null;
 
-  const stable: TurnOnConfigurationStable = {
-    await: Array.isArray(raw.await) 
+  const awaits = Array.isArray(raw.await) 
         ? raw.await
         : raw.await 
           ? [raw.await]
-          : [],
+          : [];
+
+  // also always await the run command, but without the () as it shouldn't be called to detect if it's ready
+  awaits.push(raw.run.endsWith('()') ? raw.run.substring(0, raw.run.length-2) : raw.run);
+
+  const stable: TurnOnConfigurationStable = {
+    awaits: awaits,
     run: raw.run,
     progress: '1-loaded',
   }
