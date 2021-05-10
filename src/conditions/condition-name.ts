@@ -3,7 +3,6 @@ import { Status, windowName } from '..';
 
 /**
  * Create a checker which verifies if a key or key-sequence on window exists
- * @param key 
  */
 export function createNameCondition(key: string): Condition {
   // empty-ish strings - always say it's done

@@ -8,13 +8,21 @@ export const ProgressError = '9-error';
 export type TurnOnProgres = typeof Progress1Loaded | typeof Progress2Watching  | typeof Progress3Running | typeof Progress4Completed | typeof Progress9Cancelled | typeof ProgressError ;
 
 export interface TurnOnConfiguration {
+  /** Things to wait for - names on window (or sub-objects) or functions on window or sub-objects */
   await: string[];
 
+  /**
+   * What to run when all awaits have succeeded. 
+   * The system will also wait for this to exist before it runs it. 
+   */
   run: string;
 
+  /** Information how far processing of this configuration has commenced */
   progress: TurnOnProgres;
 
+  /** Possible error information */
   error?: string;
 
+  /** Optional data to give the function once it starts */
   data?: unknown;
 }

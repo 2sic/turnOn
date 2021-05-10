@@ -16,6 +16,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _condition_function__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./condition-function */ "./src/conditions/condition-function.ts");
 
 
+/**
+ * Create a condition which waits for a function to exist, and then polls it till the result is ok.
+ */
 function createFunctionNameCondition(key) {
     if (!key.endsWith('()'))
         throw "Tried to create Function-Name condition but that requires it to end with (), got " + key;
@@ -53,6 +56,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createFnCondition": () => /* binding */ createFnCondition
 /* harmony export */ });
+/**
+ * Create a condition based on a function which will be polled till it returns truthy
+ */
 function createFnCondition(fn) {
     var name = fn.toString();
     if (name && name.length > 25)
@@ -123,7 +129,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * Create a checker which verifies if a key or key-sequence on window exists
- * @param key
  */
 function createNameCondition(key) {
     // empty-ish strings - always say it's done
@@ -297,13 +302,13 @@ var ConfigHelper = /** @class */ (function () {
             : raw.await
                 ? [raw.await]
                 : [];
-        // also always await the run command, but without the () as it shouldn't be called to detect if it's ready
+        // also always await the run command, but without the () as it shouldn't be called to detect if it's ready    
         awaits.push(raw.run.substring(0, raw.run.length - 2));
         var stable = {
             await: awaits,
             run: raw.run,
             progress: ___WEBPACK_IMPORTED_MODULE_0__.Progress1Loaded,
-            data: raw.data,
+            data: raw.data || {}, // give empty object so a developer can see this would exist as an option
         };
         return stable;
     };
@@ -714,6 +719,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! .. */ "./src/index.ts");
 /* harmony import */ var _configuration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../configuration */ "./src/configuration/index.ts");
+/* harmony import */ var _conditions_exists_progress__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../conditions/exists-progress */ "./src/conditions/exists-progress.ts");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -727,6 +733,7 @@ var __assign = (undefined && undefined.__assign) || function () {
 };
 
 
+
 /**
  *
  */
@@ -736,31 +743,20 @@ function convertConfigToTurnOn(root, tag) {
     var turnOn = root.new().await(config.await);
     tag.progress(_configuration__WEBPACK_IMPORTED_MODULE_1__.Progress2Watching);
     turnOn.then(function () {
-        var key = config.run;
-        (0,___WEBPACK_IMPORTED_MODULE_0__.log)('turn on success - will try to run ' + key);
+        var run = config.run;
+        (0,___WEBPACK_IMPORTED_MODULE_0__.log)('turn on success - will try to run ' + run);
         tag.progress(_configuration__WEBPACK_IMPORTED_MODULE_1__.Progress3Running);
-        if (!key.endsWith('()'))
+        if (!run.endsWith('()'))
             tag.error("run should end with () but doesn't - can't continue");
-        key = key.substr(0, key.length - 2);
-        var parts = key.split('.');
-        if (parts.length > 0 && parts[0] == 'window')
-            parts.shift();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        var current = window;
-        var match = 'window';
-        for (var i = 0; i < parts.length; i++) {
-            var part = parts[i];
-            current = current[part];
-            // found, so let's add to list of successful matches
-            match += '.' + part;
-            // if node not found, stop checking
-            if (!current)
-                tag.error("Tried to find object parts for " + match + " but didn't get anything.");
-        }
-        if (typeof (current) !== 'function')
-            tag.error("Got " + match + " but it's not a function");
+        var checkExists = _conditions_exists_progress__WEBPACK_IMPORTED_MODULE_2__.ExistsProgress.test(run.substr(0, run.length - 2));
+        // if node not found, stop checking
+        if (!checkExists.success)
+            tag.error("Tried to find object parts for " + checkExists.matchedKey + " but didn't get anything.");
+        if (typeof (checkExists.result) !== 'function')
+            tag.error("Got " + checkExists.partsFound + " but it's not a function");
         // now run it!
-        current(__assign(__assign({}, config), { tag: tag }));
+        var fn = checkExists.result;
+        fn(__assign(__assign({}, config), { tag: tag }));
         tag.progress(_configuration__WEBPACK_IMPORTED_MODULE_1__.Progress4Completed);
     });
     return turnOn;
@@ -1052,7 +1048,7 @@ var TurnOn = /** @class */ (function () {
                 if (thisKs.settings.log === ___WEBPACK_IMPORTED_MODULE_0__.LogDebug || (!summary.ready && thisKs.settings.log !== ___WEBPACK_IMPORTED_MODULE_0__.LogSilent))
                     thisKs.logStatusList(instanceCount, thisKs.settings, list);
                 // if all is ok, resolve now
-                if (summary.ready) {
+                if (summary.ready === true) {
                     resolve(new ___WEBPACK_IMPORTED_MODULE_3__.StatusSummary(list));
                     return;
                 }
@@ -1117,9 +1113,8 @@ var ConditionAsPromise = /** @class */ (function () {
      * Dummy innerCheck function - should be replaced in the constructor
      */
     ConditionAsPromise.prototype.innerCheck = function () { return new ___WEBPACK_IMPORTED_MODULE_0__.Status(true, 'no condition defined'); };
-    ;
     ConditionAsPromise.prototype.check = function () {
-        if (this.lastStatus.ready)
+        if (this.lastStatus.ready === true)
             return this.lastStatus;
         // check and store
         this.lastStatus = this.innerCheck();
@@ -1132,7 +1127,7 @@ var ConditionAsPromise = /** @class */ (function () {
             // If the condition is met, we're done! 
             var result = parent.check();
             // if all is ok (true) then complete the promise
-            if (result.ready) {
+            if (result.ready === true) {
                 resolve(__assign(__assign({}, result), { attempts: parent.attempts }));
                 return;
             }

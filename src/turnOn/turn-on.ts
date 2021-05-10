@@ -65,7 +65,7 @@ export class TurnOn {
           thisKs.logStatusList(instanceCount, thisKs.settings, list);
 
         // if all is ok, resolve now
-        if (summary.ready) {
+        if (summary.ready === true) {
           resolve(new StatusSummary(list));
           return;
         }

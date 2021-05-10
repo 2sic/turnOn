@@ -2,6 +2,9 @@ import { Condition } from '.';
 import { createNameCondition } from './condition-name';
 import { createFnCondition } from './condition-function';
 
+/**
+ * Create a condition which waits for a function to exist, and then polls it till the result is ok.
+ */
 export function createFunctionNameCondition(key: string): Condition {
   if(!key.endsWith('()')) throw `Tried to create Function-Name condition but that requires it to end with (), got ${key}`;
 

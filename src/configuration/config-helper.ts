@@ -43,11 +43,8 @@ export class ConfigHelper {
    */
   private static stabilize(raw: TurnOnConfigurationRaw): TurnOnConfiguration {
     if(!raw) return ConfigHelper.createError('No data found to process');
-  
     if(!raw.run) return ConfigHelper.createError(`Configuration didn't contain run - that's the minimum required.`);
-
     if(!raw.run.startsWith('window')) return ConfigHelper.createError(`run command must start with 'window.' but is:` + raw.run);
-  
     if(!raw.run.endsWith('()')) return ConfigHelper.createError(`run must be a function name and end with () but it's:` + raw.run);
   
     const awaits = Array.isArray(raw.await) 
@@ -56,15 +53,14 @@ export class ConfigHelper {
             ? [raw.await]
             : [];
   
-    // also always await the run command, but without the () as it shouldn't be called to detect if it's ready
-    
+    // also always await the run command, but without the () as it shouldn't be called to detect if it's ready    
     awaits.push(raw.run.substring(0, raw.run.length-2));
   
     const stable: TurnOnConfiguration = {
       await: awaits,
       run: raw.run,
       progress: Progress1Loaded,
-      data: raw.data,
+      data: raw.data || { }, // give empty object so a developer can see this would exist as an option
     }
     return stable;
   }

@@ -17,6 +17,5 @@ export class ConditionMaker {
       return condition.endsWith('()')
         ? createFunctionNameCondition(condition)
         : createNameCondition(condition);
-
   }
 }

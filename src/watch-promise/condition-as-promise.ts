@@ -16,10 +16,10 @@ export class ConditionAsPromise {
   /**
    * Dummy innerCheck function - should be replaced in the constructor
    */
-  public innerCheck(): Status { return new Status(true, 'no condition defined') } ;
+  public innerCheck(): Status { return new Status(true, 'no condition defined') }
 
   public check(): Status {
-    if (this.lastStatus.ready) return this.lastStatus;
+    if (this.lastStatus.ready === true) return this.lastStatus;
 
     // check and store
     this.lastStatus = this.innerCheck();
@@ -35,7 +35,7 @@ export class ConditionAsPromise {
       const result = parent.check();
 
       // if all is ok (true) then complete the promise
-      if(result.ready) {
+      if(result.ready === true) {
         resolve( { ...result, attempts: parent.attempts });
         return;
       }
