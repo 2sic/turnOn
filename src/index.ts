@@ -11,6 +11,6 @@ import { TurnOnRoot } from './turnOn';
 export * from './window';
 
 if (!window.turnOn) window.turnOn = new TurnOnRoot();
-const turnOn = window.turnOn as TurnOnRoot;
+// const turnOn = window.turnOn as TurnOnRoot;
 
-turnOn.loader.activateObserver();
+// turnOn.loader.activateObserver();

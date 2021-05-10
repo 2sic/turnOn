@@ -2,42 +2,32 @@ import { ConfigTagManager, log, AttributeTurnOn, AttributeSkip } from '..';
 
 const queryForUnprocessedTags = `[${AttributeTurnOn}]:not([${AttributeSkip}])`;
 
-const ELEMENT_NODE = 1; // https://developer.mozilla.org/en-US/docs/Web/API/Node
-/**
- * Options for the observer (which mutations to observe)
- */
-// const config : MutationObserverInit = { 
-//   attributes: false, 
-//   childList: true, 
-//   subtree: true 
-// };
+const ELEMENT_NODE = 1; // see https://developer.mozilla.org/en-US/docs/Web/API/Node
 
 /**
  * In charge of loading all turn-on tags from the DOM, both at first load as well as on DOM changes
  */
 export class TagLoader {
 
-  /**
-   * Options for the observer (which mutations to observe)
-   */
+  /** Options for the observer (which mutations to observe) */
   public config : MutationObserverInit = { 
     attributes: false, 
     childList: true, 
     subtree: true 
   };
 
+  /** The observer, in case we need to debug */
   public observer: MutationObserver;
 
   constructor(public tagManager: ConfigTagManager) {
     this.scanExistingDom();
+    this.activateObserver();
   }
 
   public scanExistingDom(): void {
     log('scanExistingDom');
     if(document.documentElement)
       this.checkAndLoadChildren(document.documentElement);
-    else
-      log('body not ready - changes will be detected by mutation observer');
   }
 
   private checkAndLoadChildren(parent: HTMLElement) {
@@ -58,8 +48,8 @@ export class TagLoader {
         if(m.type != 'childList') return;
         log('childList changes');
 
-        const nodesAsArray = Array.from(m.addedNodes);
-        nodesAsArray
+        Array.from(m.addedNodes)
+          // nodes can contain text and stuff as well, so we must filter first
           .filter(n => n.nodeType === ELEMENT_NODE)
           .forEach((node: HTMLElement) => {
             if(node?.getAttribute?.(AttributeTurnOn))
@@ -73,5 +63,4 @@ export class TagLoader {
     // observe document for tags which include this. ATM don't observe header
     this.observer.observe(document.documentElement, this.config);
   }
-
 }
