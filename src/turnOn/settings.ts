@@ -10,6 +10,8 @@ export const FailResolve = 'resolve';
 export const FailReject = 'reject';
 export const DefaultName = 'turnOn';
 
+export type LogMode = typeof LogError | typeof LogDebug | typeof LogSilent;
+
 export class Settings {
   /** the polling interval - defaults to 100 */
   interval = 100;
@@ -18,7 +20,7 @@ export class Settings {
   attempts = 100;
  
   /** What to log into the console */
-  log: typeof LogError | typeof LogDebug | typeof LogSilent = LogError;
+  log: LogMode = LogError;
 
   /**
    * Failure mode, if by timeout it's not successful

@@ -1,6 +1,7 @@
 import { Status } from '..';
 import { Settings } from '../turnOn';
 
+const promiseType = 'promise';
 export class ConditionAsPromise {
 
   public settings: Settings;
@@ -10,13 +11,13 @@ export class ConditionAsPromise {
     this.settings = settings;
   }
 
-  public lastStatus: Status = new Status(false, 'condition not checked yet');
+  public lastStatus: Status = new Status(promiseType, false, 'condition not checked yet');
   public attempts = 0;
 
   /**
    * Dummy innerCheck function - should be replaced in the constructor
    */
-  public innerCheck(): Status { return new Status(true, 'no condition defined') }
+  public innerCheck(): Status { return new Status(promiseType, true, 'no condition defined') }
 
   public check(): Status {
     if (this.lastStatus.ready === true) return this.lastStatus;

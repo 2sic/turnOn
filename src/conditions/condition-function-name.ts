@@ -2,6 +2,8 @@ import { Condition } from '.';
 import { createNameCondition } from './condition-name';
 import { createFnCondition } from './condition-function';
 
+const namedFnType = 'named fn';
+
 /**
  * Create a condition which waits for a function to exist, and then polls it till the result is ok.
  */
@@ -17,16 +19,16 @@ export function createFunctionNameCondition(key: string): Condition {
     // But only do this till we have the fnCondition once, then skip
     if(!fnCondition) {
       const statusOfName = nameCondition();
-      if(!statusOfName.ready) return statusOfName;
+      if(!statusOfName.ready) return { ...statusOfName, type: namedFnType} ;
 
       // Check if we really got a function - if not, assume all is ok and don't try to call
-      if(typeof(statusOfName.result) !== 'function') return statusOfName;
+      if(typeof(statusOfName.result) !== 'function') return { ...statusOfName, type: namedFnType };
       
       // Create the function-condition to use from now on. 
       fnCondition = createFnCondition(statusOfName.result as () => boolean);
     }
 
     // once the name exists, try to get the function
-    return fnCondition();
+    return { ...fnCondition(), type: namedFnType };
   }
 }

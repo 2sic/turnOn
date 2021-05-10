@@ -1,7 +1,10 @@
 
 const nameNotDefined = 'not set';
+
 export class Status {
   constructor(
+    /** The status type, like window-key, function, summary etc. */
+    public type: string,
 
     /** Status if the check has been successful */
     public ready: boolean,

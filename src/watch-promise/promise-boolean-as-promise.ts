@@ -5,7 +5,7 @@ export function promiseBoolToStatus(boolPromise: Promise<boolean>): Promise<Stat
     boolPromise
       .then(r => {
         const result = r !== false;
-        resolve(new Status(result, 'from promise'));
+        resolve(new Status('bool-promise', result, 'from promise'));
     })
       .catch(reason => reject(reason));
   });

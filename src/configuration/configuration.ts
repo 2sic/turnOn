@@ -1,3 +1,4 @@
+import { Settings } from '../turnOn/settings';
 export const Progress1Loaded = '1-loaded';
 export const Progress2Watching = '2-watching';
 export const Progress3Running = '3-running';
@@ -10,6 +11,9 @@ export type TurnOnProgres = typeof Progress1Loaded | typeof Progress2Watching  |
 export interface TurnOnConfiguration {
   /** Things to wait for - names on window (or sub-objects) or functions on window or sub-objects */
   await: string[];
+
+  /** Special flag to log everything that's happening for extensive debugging */
+  debug: boolean;
 
   /**
    * What to run when all awaits have succeeded. 
@@ -25,4 +29,7 @@ export interface TurnOnConfiguration {
 
   /** Optional data to give the function once it starts */
   data?: unknown;
+
+  /** Settings used for this turn-on */
+  settings?: Settings
 }

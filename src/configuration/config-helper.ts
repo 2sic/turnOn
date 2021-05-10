@@ -1,5 +1,6 @@
 import { Progress1Loaded, ProgressError, TurnOnConfiguration } from '.';
 import { TurnOnConfigurationRaw } from '..';
+import { LogMode, Settings, LogError, LogDebug } from '../turnOn/settings';
 
 export class ConfigHelper {
 
@@ -9,6 +10,7 @@ export class ConfigHelper {
   static createError(message: string): TurnOnConfiguration {
     const result: TurnOnConfiguration = {
       await: [],
+      debug: false,
       run: '',
       progress: ProgressError,
       error: message
@@ -42,8 +44,8 @@ export class ConfigHelper {
    * Import a raw configuration and make sure it's fully compliant
    */
   private static stabilize(raw: TurnOnConfigurationRaw): TurnOnConfiguration {
-    if(!raw) return ConfigHelper.createError('No data found to process');
-    if(!raw.run) return ConfigHelper.createError(`Configuration didn't contain run - that's the minimum required.`);
+    if(!raw) return ConfigHelper.createError('No config data found to process');
+    if(!raw.run) return ConfigHelper.createError(`Config didn't contain 'run' - it's required.`);
     if(!raw.run.startsWith('window')) return ConfigHelper.createError(`run command must start with 'window.' but is:` + raw.run);
     if(!raw.run.endsWith('()')) return ConfigHelper.createError(`run must be a function name and end with () but it's:` + raw.run);
   
@@ -56,11 +58,15 @@ export class ConfigHelper {
     // also always await the run command, but without the () as it shouldn't be called to detect if it's ready    
     awaits.push(raw.run.substring(0, raw.run.length-2));
   
+    const logMode: LogMode = (raw?.debug ?? false) ? LogError : LogDebug;
+
     const stable: TurnOnConfiguration = {
       await: awaits,
+      debug: raw.debug ?? false,
       run: raw.run,
       progress: Progress1Loaded,
       data: raw.data || { }, // give empty object so a developer can see this would exist as an option
+      settings: { ...new Settings(), log: logMode, ...raw.settings }
     }
     return stable;
   }

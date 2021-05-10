@@ -12,6 +12,7 @@ export class TurnOnRoot {
   {
     this.tagManager = new ConfigTagManager(this);
     this.loader = new TagLoader(this.tagManager);
+    console.log('turnOn v0.1 running - set window.debugTurnOn = true for debugging')
   }
 
   /**

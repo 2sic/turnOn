@@ -14,7 +14,7 @@ export class StatusSummary extends Status {
       : ready
         ? 'all ok'
         : 'some conditions did not complete';
-    super(ready, message, 'Summary');
+    super('summary', ready, message, 'Summary');
     this.details = details;
   }
 

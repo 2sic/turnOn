@@ -2,6 +2,8 @@ import { Settings, LogDebug, LogSilent } from '.';
 import { DefaultName, FailReject, FailResolve, FailSilent } from './settings';
 import { promiseBoolToStatus } from '../watch-promise/promise-boolean-as-promise';
 import { ConditionAsPromise, ConditionMaker, ConditionRaw, Status, StatusSummary } from '..';
+import { logPrefix } from '../constants';
+
 export class TurnOn {
 
   /** The settings applied to this turnOn */
@@ -61,8 +63,8 @@ export class TurnOn {
         const summary = new StatusSummary(list);
 
         // by default, log details about what failed
-        if (thisKs.settings.log === LogDebug || (!summary.ready && thisKs.settings.log !== LogSilent))
-          thisKs.logStatusList(instanceCount, thisKs.settings, list);
+        if (window.debugTurnOn || thisKs.settings.log === LogDebug || (!summary.ready && thisKs.settings.log !== LogSilent))
+          thisKs.logStatusList(summary.ready, instanceCount, thisKs.settings, list);
 
         // if all is ok, resolve now
         if (summary.ready === true) {
@@ -82,10 +84,11 @@ export class TurnOn {
     return flattened;
   }
 
-  public logStatusList(id: number, settings: Settings, statusList: Status[]): void {
-    console.log(`turnOn #${id} `
+  public logStatusList(success: boolean, id: number, settings: Settings, statusList: Status[]): void {
+    console.log(logPrefix + `#${id} `
     + (settings.name !== DefaultName ? `"${settings.name}" ` : '')
-    + `couldn't complete because some conditions were not met. See details: `, statusList);
+    + (success ? 'success!' : `couldn't complete because some conditions were not met. See details: `),
+     statusList);
   }
 
   private _conditionMaker = new ConditionMaker();

@@ -14,8 +14,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _condition_name__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./condition-name */ "./src/conditions/condition-name.ts");
 /* harmony import */ var _condition_function__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./condition-function */ "./src/conditions/condition-function.ts");
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 
 
+var namedFnType = 'named fn';
 /**
  * Create a condition which waits for a function to exist, and then polls it till the result is ok.
  */
@@ -31,15 +43,15 @@ function createFunctionNameCondition(key) {
         if (!fnCondition) {
             var statusOfName = nameCondition();
             if (!statusOfName.ready)
-                return statusOfName;
+                return __assign(__assign({}, statusOfName), { type: namedFnType });
             // Check if we really got a function - if not, assume all is ok and don't try to call
             if (typeof (statusOfName.result) !== 'function')
-                return statusOfName;
+                return __assign(__assign({}, statusOfName), { type: namedFnType });
             // Create the function-condition to use from now on. 
             fnCondition = (0,_condition_function__WEBPACK_IMPORTED_MODULE_1__.createFnCondition)(statusOfName.result);
         }
         // once the name exists, try to get the function
-        return fnCondition();
+        return __assign(__assign({}, fnCondition()), { type: namedFnType });
     };
 }
 
@@ -56,6 +68,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createFnCondition": () => /* binding */ createFnCondition
 /* harmony export */ });
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! .. */ "./src/index.ts");
+
 /**
  * Create a condition based on a function which will be polled till it returns truthy
  */
@@ -64,11 +78,7 @@ function createFnCondition(fn) {
     if (name && name.length > 25)
         name = name.substr(0, 25);
     return function () {
-        return {
-            name: name,
-            ready: fn(),
-            message: ''
-        };
+        return new ___WEBPACK_IMPORTED_MODULE_0__.Status('fn', fn(), '', name);
     };
 }
 
@@ -127,20 +137,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! .. */ "./src/index.ts");
 
 
+var statusType = 'window-key';
 /**
  * Create a checker which verifies if a key or key-sequence on window exists
  */
 function createNameCondition(key) {
     // empty-ish strings - always say it's done
     if (!key)
-        return function () { return new ___WEBPACK_IMPORTED_MODULE_1__.Status(true, 'empty key', key); };
+        return function () { return new ___WEBPACK_IMPORTED_MODULE_1__.Status(statusType, true, 'empty key', key); };
     if (key === ___WEBPACK_IMPORTED_MODULE_1__.windowName)
-        return function () { return new ___WEBPACK_IMPORTED_MODULE_1__.Status(true, 'no keys except maybe windows found', key); };
+        return function () { return new ___WEBPACK_IMPORTED_MODULE_1__.Status(statusType, true, 'no keys except maybe windows found', key); };
     return function () {
         var exists = ___WEBPACK_IMPORTED_MODULE_0__.ExistsProgress.test(key);
         if (exists.success)
-            return new ___WEBPACK_IMPORTED_MODULE_1__.Status(true, 'all keys matched', key, exists.result);
-        return new ___WEBPACK_IMPORTED_MODULE_1__.Status(false, "Not all keys matched yet. So far '" + exists.matchedKey + "' worked.", key);
+            return new ___WEBPACK_IMPORTED_MODULE_1__.Status(statusType, true, 'all keys matched', key, exists.result);
+        return new ___WEBPACK_IMPORTED_MODULE_1__.Status(statusType, false, "Not all keys matched yet. So far '" + exists.matchedKey + "' worked.", key);
     };
 }
 
@@ -249,6 +260,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ConfigHelper": () => /* binding */ ConfigHelper
 /* harmony export */ });
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! . */ "./src/configuration/index.ts");
+/* harmony import */ var _turnOn_settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../turnOn/settings */ "./src/turnOn/settings.ts");
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
 
 var ConfigHelper = /** @class */ (function () {
     function ConfigHelper() {
@@ -259,6 +283,7 @@ var ConfigHelper = /** @class */ (function () {
     ConfigHelper.createError = function (message) {
         var result = {
             await: [],
+            debug: false,
             run: '',
             progress: ___WEBPACK_IMPORTED_MODULE_0__.ProgressError,
             error: message
@@ -289,10 +314,11 @@ var ConfigHelper = /** @class */ (function () {
      * Import a raw configuration and make sure it's fully compliant
      */
     ConfigHelper.stabilize = function (raw) {
+        var _a, _b;
         if (!raw)
-            return ConfigHelper.createError('No data found to process');
+            return ConfigHelper.createError('No config data found to process');
         if (!raw.run)
-            return ConfigHelper.createError("Configuration didn't contain run - that's the minimum required.");
+            return ConfigHelper.createError("Config didn't contain 'run' - it's required.");
         if (!raw.run.startsWith('window'))
             return ConfigHelper.createError("run command must start with 'window.' but is:" + raw.run);
         if (!raw.run.endsWith('()'))
@@ -304,11 +330,14 @@ var ConfigHelper = /** @class */ (function () {
                 : [];
         // also always await the run command, but without the () as it shouldn't be called to detect if it's ready    
         awaits.push(raw.run.substring(0, raw.run.length - 2));
+        var logMode = ((_a = raw === null || raw === void 0 ? void 0 : raw.debug) !== null && _a !== void 0 ? _a : false) ? _turnOn_settings__WEBPACK_IMPORTED_MODULE_1__.LogError : _turnOn_settings__WEBPACK_IMPORTED_MODULE_1__.LogDebug;
         var stable = {
             await: awaits,
+            debug: (_b = raw.debug) !== null && _b !== void 0 ? _b : false,
             run: raw.run,
             progress: ___WEBPACK_IMPORTED_MODULE_0__.Progress1Loaded,
-            data: raw.data || {}, // give empty object so a developer can see this would exist as an option
+            data: raw.data || {},
+            settings: __assign(__assign(__assign({}, new _turnOn_settings__WEBPACK_IMPORTED_MODULE_1__.Settings()), { log: logMode }), raw.settings)
         };
         return stable;
     };
@@ -388,11 +417,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "attrConfig": () => /* binding */ attrConfig,
 /* harmony export */   "attrSkip": () => /* binding */ attrSkip,
-/* harmony export */   "windowName": () => /* binding */ windowName
+/* harmony export */   "windowName": () => /* binding */ windowName,
+/* harmony export */   "logPrefix": () => /* binding */ logPrefix
 /* harmony export */ });
 var attrConfig = 'turn-on';
 var attrSkip = 'turn-on-skip';
 var windowName = 'window';
+var logPrefix = 'turn-on: ';
 
 
 /***/ }),
@@ -407,16 +438,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "log": () => /* binding */ log
 /* harmony export */ });
-var debug = true;
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
+// const debug = true;
+
 function log(message, obj1, obj2) {
-    if (!debug)
+    if (!window.debugTurnOn)
         return;
     if (obj2)
-        console.log('turn-on: ' + message, obj1, obj2);
+        console.log(_constants__WEBPACK_IMPORTED_MODULE_0__.logPrefix + message, obj1, obj2);
     else if (obj1)
-        console.log('turn-on: ' + message, obj1);
+        console.log(_constants__WEBPACK_IMPORTED_MODULE_0__.logPrefix + message, obj1);
     else
-        console.log('turn-on: ' + message);
+        console.log(_constants__WEBPACK_IMPORTED_MODULE_0__.logPrefix + message);
 }
 
 
@@ -432,6 +465,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "attrConfig": () => /* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_0__.attrConfig,
 /* harmony export */   "attrSkip": () => /* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_0__.attrSkip,
+/* harmony export */   "logPrefix": () => /* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_0__.logPrefix,
 /* harmony export */   "windowName": () => /* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_0__.windowName,
 /* harmony export */   "log": () => /* reexport safe */ _debug__WEBPACK_IMPORTED_MODULE_1__.log,
 /* harmony export */   "Status": () => /* reexport safe */ _status__WEBPACK_IMPORTED_MODULE_2__.Status,
@@ -455,6 +489,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tags__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./tags */ "./src/tags/index.ts");
 /* harmony import */ var _watch_promise__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./watch-promise */ "./src/watch-promise/index.ts");
 /* harmony import */ var _turnOn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./turnOn */ "./src/turnOn/index.ts");
+/* harmony import */ var _window__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./window */ "./src/window.ts");
 
 
 
@@ -462,10 +497,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var win = window;
-if (!win.turnOn)
-    win.turnOn = new _turnOn__WEBPACK_IMPORTED_MODULE_6__.TurnOnRoot();
-var turnOn = win.turnOn;
+
+if (!window.turnOn)
+    window.turnOn = new _turnOn__WEBPACK_IMPORTED_MODULE_6__.TurnOnRoot();
+var turnOn = window.turnOn;
 turnOn.loader.activateObserver();
 
 
@@ -530,7 +565,7 @@ var StatusSummary = /** @class */ (function (_super) {
             : ready
                 ? 'all ok'
                 : 'some conditions did not complete';
-        _this = _super.call(this, ready, message, 'Summary') || this;
+        _this = _super.call(this, 'summary', ready, message, 'Summary') || this;
         _this.details = details;
         return _this;
     }
@@ -561,6 +596,8 @@ __webpack_require__.r(__webpack_exports__);
 var nameNotDefined = 'not set';
 var Status = /** @class */ (function () {
     function Status(
+    /** The status type, like window-key, function, summary etc. */
+    type, 
     /** Status if the check has been successful */
     ready, 
     /** Status message if provided */
@@ -570,6 +607,7 @@ var Status = /** @class */ (function () {
     /** result of a check - in some cases needed for next steps */
     result) {
         if (name === void 0) { name = nameNotDefined; }
+        this.type = type;
         this.ready = ready;
         this.message = message;
         this.name = name;
@@ -740,26 +778,34 @@ var __assign = (undefined && undefined.__assign) || function () {
 function convertConfigToTurnOn(root, tag) {
     var config = tag.config;
     (0,___WEBPACK_IMPORTED_MODULE_0__.log)('convert to turnon');
-    var turnOn = root.new().await(config.await);
+    var turnOn = root.new(config.settings);
+    config.settings = turnOn.settings;
+    var promise = turnOn.await(config.await);
     tag.progress(_configuration__WEBPACK_IMPORTED_MODULE_1__.Progress2Watching);
-    turnOn.then(function () {
+    promise.then(function () {
         var run = config.run;
         (0,___WEBPACK_IMPORTED_MODULE_0__.log)('turn on success - will try to run ' + run);
         tag.progress(_configuration__WEBPACK_IMPORTED_MODULE_1__.Progress3Running);
-        if (!run.endsWith('()'))
+        if (!run.endsWith('()')) {
             tag.error("run should end with () but doesn't - can't continue");
+            return;
+        }
         var checkExists = _conditions_exists_progress__WEBPACK_IMPORTED_MODULE_2__.ExistsProgress.test(run.substr(0, run.length - 2));
         // if node not found, stop checking
-        if (!checkExists.success)
+        if (!checkExists.success) {
             tag.error("Tried to find object parts for " + checkExists.matchedKey + " but didn't get anything.");
-        if (typeof (checkExists.result) !== 'function')
+            return;
+        }
+        if (typeof (checkExists.result) !== 'function') {
             tag.error("Got " + checkExists.partsFound + " but it's not a function");
+            return;
+        }
         // now run it!
         var fn = checkExists.result;
         fn(__assign(__assign({}, config), { tag: tag }));
         tag.progress(_configuration__WEBPACK_IMPORTED_MODULE_1__.Progress4Completed);
     });
-    return turnOn;
+    return promise;
 }
 console.log('hello!');
 
@@ -952,6 +998,7 @@ var TurnOnRoot = /** @class */ (function () {
     function TurnOnRoot() {
         this.tagManager = new _tags_config_tag_manager__WEBPACK_IMPORTED_MODULE_2__.ConfigTagManager(this);
         this.loader = new ___WEBPACK_IMPORTED_MODULE_1__.TagLoader(this.tagManager);
+        console.log('turnOn v0.1 running - set window.debugTurnOn = true for debugging');
     }
     /**
      * Create a new turnOn object.
@@ -981,6 +1028,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./settings */ "./src/turnOn/settings.ts");
 /* harmony import */ var _watch_promise_promise_boolean_as_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../watch-promise/promise-boolean-as-promise */ "./src/watch-promise/promise-boolean-as-promise.ts");
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! .. */ "./src/index.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -992,6 +1040,7 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+
 
 
 
@@ -1045,8 +1094,8 @@ var TurnOn = /** @class */ (function () {
                 // get summary of all details infos
                 var summary = new ___WEBPACK_IMPORTED_MODULE_3__.StatusSummary(list);
                 // by default, log details about what failed
-                if (thisKs.settings.log === ___WEBPACK_IMPORTED_MODULE_0__.LogDebug || (!summary.ready && thisKs.settings.log !== ___WEBPACK_IMPORTED_MODULE_0__.LogSilent))
-                    thisKs.logStatusList(instanceCount, thisKs.settings, list);
+                if (window.debugTurnOn || thisKs.settings.log === ___WEBPACK_IMPORTED_MODULE_0__.LogDebug || (!summary.ready && thisKs.settings.log !== ___WEBPACK_IMPORTED_MODULE_0__.LogSilent))
+                    thisKs.logStatusList(summary.ready, instanceCount, thisKs.settings, list);
                 // if all is ok, resolve now
                 if (summary.ready === true) {
                     resolve(new ___WEBPACK_IMPORTED_MODULE_3__.StatusSummary(list));
@@ -1066,10 +1115,10 @@ var TurnOn = /** @class */ (function () {
         });
         return flattened;
     };
-    TurnOn.prototype.logStatusList = function (id, settings, statusList) {
-        console.log("turnOn #" + id + " "
+    TurnOn.prototype.logStatusList = function (success, id, settings, statusList) {
+        console.log(_constants__WEBPACK_IMPORTED_MODULE_4__.logPrefix + ("#" + id + " ")
             + (settings.name !== _settings__WEBPACK_IMPORTED_MODULE_1__.DefaultName ? "\"" + settings.name + "\" " : '')
-            + "couldn't complete because some conditions were not met. See details: ", statusList);
+            + (success ? 'success!' : "couldn't complete because some conditions were not met. See details: "), statusList);
     };
     TurnOn.count = 0;
     return TurnOn;
@@ -1102,9 +1151,10 @@ var __assign = (undefined && undefined.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 
+var promiseType = 'promise';
 var ConditionAsPromise = /** @class */ (function () {
     function ConditionAsPromise(checkFunction, settings) {
-        this.lastStatus = new ___WEBPACK_IMPORTED_MODULE_0__.Status(false, 'condition not checked yet');
+        this.lastStatus = new ___WEBPACK_IMPORTED_MODULE_0__.Status(promiseType, false, 'condition not checked yet');
         this.attempts = 0;
         this.innerCheck = checkFunction;
         this.settings = settings;
@@ -1112,7 +1162,7 @@ var ConditionAsPromise = /** @class */ (function () {
     /**
      * Dummy innerCheck function - should be replaced in the constructor
      */
-    ConditionAsPromise.prototype.innerCheck = function () { return new ___WEBPACK_IMPORTED_MODULE_0__.Status(true, 'no condition defined'); };
+    ConditionAsPromise.prototype.innerCheck = function () { return new ___WEBPACK_IMPORTED_MODULE_0__.Status(promiseType, true, 'no condition defined'); };
     ConditionAsPromise.prototype.check = function () {
         if (this.lastStatus.ready === true)
             return this.lastStatus;
@@ -1183,11 +1233,23 @@ function promiseBoolToStatus(boolPromise) {
         boolPromise
             .then(function (r) {
             var result = r !== false;
-            resolve(new ___WEBPACK_IMPORTED_MODULE_0__.Status(result, 'from promise'));
+            resolve(new ___WEBPACK_IMPORTED_MODULE_0__.Status('bool-promise', result, 'from promise'));
         })
             .catch(function (reason) { return reject(reason); });
     });
 }
+
+
+/***/ }),
+
+/***/ "./src/window.ts":
+/*!***********************!*\
+  !*** ./src/window.ts ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+
 
 
 /***/ })
