@@ -1,5 +1,5 @@
 import { TurnOnConfiguration, TurnOnProgres } from '../configuration';
-import { attrConfig, attrSkip } from '..';
+import { AttributeTurnOn, AttributeSkip } from '..';
 import { log } from '../debug';
 import { TurnOn } from '../turnOn/turn-on';
 import { ProgressError } from '../configuration/configuration';
@@ -21,10 +21,10 @@ export class ConfigTag {
     const tag = this.tag;
     // set skip if missing and update json in html if not current
     // Do these checks to avoid to many DOM changes
-    if(!tag.getAttribute(attrSkip)) tag.setAttribute(attrSkip, "skip");
+    if(!tag.getAttribute(AttributeSkip)) tag.setAttribute(AttributeSkip, "skip");
     const currentSerialized = JSON.stringify(this.config);
-    if(tag.getAttribute(attrConfig) !== currentSerialized)
-      tag.setAttribute(attrConfig, currentSerialized);
+    if(tag.getAttribute(AttributeTurnOn) !== currentSerialized)
+      tag.setAttribute(AttributeTurnOn, currentSerialized);
   }
 
   progress(prog: TurnOnProgres): void {

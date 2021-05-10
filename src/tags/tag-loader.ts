@@ -1,18 +1,32 @@
-import { ConfigTagManager, log } from '..';
+import { ConfigTagManager, log, AttributeTurnOn, AttributeSkip } from '..';
 
+const queryForUnprocessedTags = `[${AttributeTurnOn}]:not([${AttributeSkip}])`;
+
+const ELEMENT_NODE = 1; // https://developer.mozilla.org/en-US/docs/Web/API/Node
 /**
  * Options for the observer (which mutations to observe)
  */
-const config : MutationObserverInit = { 
-  attributes: false, 
-  childList: true, 
-  subtree: true 
-};
+// const config : MutationObserverInit = { 
+//   attributes: false, 
+//   childList: true, 
+//   subtree: true 
+// };
 
 /**
  * In charge of loading all turn-on tags from the DOM, both at first load as well as on DOM changes
  */
 export class TagLoader {
+
+  /**
+   * Options for the observer (which mutations to observe)
+   */
+  public config : MutationObserverInit = { 
+    attributes: false, 
+    childList: true, 
+    subtree: true 
+  };
+
+  public observer: MutationObserver;
 
   constructor(public tagManager: ConfigTagManager) {
     this.scanExistingDom();
@@ -20,28 +34,44 @@ export class TagLoader {
 
   public scanExistingDom(): void {
     log('scanExistingDom');
-    const tags = document.querySelectorAll(`[turn-on]`);
-    log('tags:', tags);
+    if(document.documentElement)
+      this.checkAndLoadChildren(document.documentElement);
+    else
+      log('body not ready - changes will be detected by mutation observer');
+  }
+
+  private checkAndLoadChildren(parent: HTMLElement) {
+    log('checkAndLoadChildren', parent);
+    if(!parent?.children?.length) return;
+    const tags = parent.querySelectorAll(queryForUnprocessedTags);
     tags.forEach((t: HTMLElement) => this.tagManager.tryToLoadTag(t));
   }
 
   public activateObserver(): void {
-    log('load');
+    log('activateObserver');
   
-    const observer = new MutationObserver((mutations) => {
-      log('turnOn mutation');
+    this.observer = new MutationObserver((mutations) => {
+      log('mutations detected', mutations);
       // Loop through each changed item, check if it's something we want to initialize
       mutations.forEach((m) => {
         // Nodes added - let's check if it is a turn-on
         if(m.type != 'childList') return;
-        log('hit children');
+        log('childList changes');
 
-        m.addedNodes.forEach((node: HTMLElement) => this.tagManager.tryToLoadTag(node));
+        const nodesAsArray = Array.from(m.addedNodes);
+        nodesAsArray
+          .filter(n => n.nodeType === ELEMENT_NODE)
+          .forEach((node: HTMLElement) => {
+            if(node?.getAttribute?.(AttributeTurnOn))
+              this.tagManager.tryToLoadTag(node);
+            else 
+              this.checkAndLoadChildren(node);
+          });
       });
     });
   
     // observe document for tags which include this. ATM don't observe header
-    observer.observe(document.documentElement, config);
+    this.observer.observe(document.documentElement, this.config);
   }
 
 }

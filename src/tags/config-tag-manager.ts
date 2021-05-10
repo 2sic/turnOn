@@ -1,5 +1,5 @@
 import { TurnOnConfiguration } from '../configuration';
-import { attrConfig, attrSkip, log } from '..';
+import { AttributeTurnOn, AttributeSkip, log } from '..';
 import { TurnOnRoot } from '../turnOn';
 import { ConfigTag, convertConfigToTurnOn } from '.';
 import { ConfigHelper, ProgressError } from '../configuration';
@@ -15,9 +15,9 @@ export class ConfigTagManager {
 
   tryToLoadTag(node: HTMLElement): void {
     // Get config and skip if not relevant, or skip if already marked as in the queue
-    const attr = node?.getAttribute?.(attrConfig);
+    const attr = node?.getAttribute?.(AttributeTurnOn);
     if(!attr) return;
-    const skip = node?.getAttribute?.(attrSkip);
+    const skip = node?.getAttribute?.(AttributeSkip);
     log('skip', skip);
     if(skip) return log('skip');
 

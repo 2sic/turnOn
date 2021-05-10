@@ -43,5 +43,3 @@ export function convertConfigToTurnOn(root: TurnOnRoot, tag: ConfigTag): Promise
   });
   return promise;
 }
-
-console.log('hello!');
