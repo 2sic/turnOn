@@ -1,4 +1,5 @@
-import { Settings, Status } from '.';
+import { Status } from '..';
+import { Settings } from '../turnOn';
 
 export class ConditionAsPromise {
 

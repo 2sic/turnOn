@@ -1,5 +1,5 @@
 import { Condition, ConditionRaw } from '.';
-import { Status } from './status';
+import { Status } from '../status/status';
 
 /**
  * Internal class to generate is-it-ready checkers

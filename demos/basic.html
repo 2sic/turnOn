@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/index.js"></script>
+    <script src="../dist/turn-on.js"></script>
   </head>
 
   <body>
@@ -21,19 +21,15 @@
     <hr>
 
     <script>
-      function simpleCall() {
+      function simpleCall(config) {
         alert(`simple now exists and contains ${window.simple}`);
+        console.log('config', config);
       }
     </script>
     <h2>Simple tests</h2>
     <h3>Simple test - waiting for <code>window.simple</code></h3>
-    <turn-on turn-on='{ "await": "simple", "run": "simpleCall"}' />
-    <script>
-      // basic sample, just use quickstart with default settings
-      // turnOn.new()
-      //   .await('simple')
-      //   .then(simpleCall);
-    </script>
+    <!-- basic sample, just use quickstart with default settings -->
+    <turn-on turn-on='{ "await": "window.simple", "run": "window.simpleCall()"}' />
     <button onclick="window.simple = 'demo'">Set window.simple</button>
     <hr>
 

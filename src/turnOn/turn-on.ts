@@ -1,11 +1,11 @@
-import { ConditionAsPromise, Settings, Status, LogDebug, LogSilent, StatusSummary } from '.';
+import { Settings, LogDebug, LogSilent } from '.';
 import { DefaultName, FailReject, FailResolve, FailSilent } from './settings';
-import { promiseBoolToStatus } from './promise-boolean-to-status';
-import { ConditionMaker, ConditionRaw } from '..';
+import { promiseBoolToStatus } from '../watch-promise/promise-boolean-as-promise';
+import { ConditionAsPromise, ConditionMaker, ConditionRaw, Status, StatusSummary } from '..';
 export class TurnOn {
 
   /** The settings applied to this turnOn */
-  public settings: Settings;
+  public settings = new Settings();
 
   /** Constructor with optional settings */
   constructor(nameOrSettings?: Partial<Settings> | string) {
@@ -16,7 +16,7 @@ export class TurnOn {
     }
 
     if (nameOrSettings)
-      this.settings = { ...new Settings(), ...nameOrSettings };
+      this.settings = { ...this.settings, ...nameOrSettings };
 
     TurnOn.count++;
   }

@@ -1,17 +1,17 @@
 import { Settings, TurnOn } from '.';
-import { TurnOnLoader } from '..';
-import { ConfigTagManager } from '../config-tags/config-tag-manager';
+import { TagLoader } from '..';
+import { ConfigTagManager } from '../tags/config-tag-manager';
 
 export class TurnOnRoot {
   
   tagManager: ConfigTagManager;
 
-  loader: TurnOnLoader;
+  loader: TagLoader;
 
   constructor()
   {
     this.tagManager = new ConfigTagManager(this);
-    this.loader = new TurnOnLoader(this, this.tagManager);
+    this.loader = new TagLoader(this.tagManager);
   }
 
   /**

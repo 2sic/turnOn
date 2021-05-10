@@ -1,5 +1,6 @@
 import { Status } from '.';
 
+
 export class StatusSummary extends Status {
 
   constructor(details: Status[]) {

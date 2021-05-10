@@ -39,8 +39,10 @@ export function convertConfigToTurnOn(root: TurnOnRoot, tag: ConfigTag): Promise
     if(typeof(current) !== 'function') tag.error(`Got ${match} but it's not a function`);
 
     // now run it!
-    current({ ...tag.config, tag: tag });
+    current({ ...config, tag: tag });
     tag.progress(Progress4Completed);
   });
   return turnOn;
 }
+
+console.log('hello!');

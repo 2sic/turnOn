@@ -45,8 +45,10 @@ export class ConfigHelper {
     if(!raw) return ConfigHelper.createError('No data found to process');
   
     if(!raw.run) return ConfigHelper.createError(`Configuration didn't contain run - that's the minimum required.`);
+
+    if(!raw.run.startsWith('window')) return ConfigHelper.createError(`run command must start with 'window.' but is:` + raw.run);
   
-    if(!raw.run.endsWith('()')) return ConfigHelper.createError('raw must be a function name and end with ()');
+    if(!raw.run.endsWith('()')) return ConfigHelper.createError(`run must be a function name and end with () but it's:` + raw.run);
   
     const awaits = Array.isArray(raw.await) 
           ? raw.await

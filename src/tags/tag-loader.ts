@@ -1,5 +1,4 @@
 import { ConfigTagManager, log } from '..';
-import { TurnOnRoot } from '../turnOn';
 
 /**
  * Options for the observer (which mutations to observe)
@@ -13,9 +12,9 @@ const config : MutationObserverInit = {
 /**
  * In charge of loading all turn-on tags from the DOM, both at first load as well as on DOM changes
  */
-export class TurnOnLoader {
+export class TagLoader {
 
-  constructor(public root: TurnOnRoot, public tagManager: ConfigTagManager) {
+  constructor(public tagManager: ConfigTagManager) {
     this.scanExistingDom();
   }
 

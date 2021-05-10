@@ -2,9 +2,10 @@
 export * from './constants';
 export * from './debug';
 
+export * from './status';
 export * from './conditions';
-export * from './config-tags';
-export * from './loader';
+export * from './tags';
+export * from './watch-promise';
 
 import { TurnOnRoot } from './turnOn';
 
