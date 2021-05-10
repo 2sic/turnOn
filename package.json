@@ -4,7 +4,8 @@
   "description": "turnOn is a JavaScript boot helper, which ensures that all dependencies are loaded before your application starts.",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --watch",
+    "dev": "webpack --mode=development --watch",
+    "build": "webpack --mode=production --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

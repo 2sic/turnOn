@@ -58,7 +58,7 @@ export class ConfigHelper {
     // also always await the run command, but without the () as it shouldn't be called to detect if it's ready    
     awaits.push(raw.run.substring(0, raw.run.length-2));
   
-    const logMode: LogMode = (raw?.debug ?? false) ? LogError : LogDebug;
+    const logMode: LogMode = (raw?.debug ?? false) ? LogDebug : LogError;
 
     const stable: TurnOnConfiguration = {
       await: awaits,
