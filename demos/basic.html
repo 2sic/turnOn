@@ -25,12 +25,22 @@
         alert(`simple now exists and contains ${window.simple}`);
         console.log('config', config);
       }
+
+      let simpleCount = 0;
+      function check7Times() {
+        console.log('check7Times:' + simpleCount);
+        return simpleCount++ > 7;
+      }
+      function setSimpleToDemo() {
+        console.log('set simple to demo');
+        window.simple = 'demo';
+      }
     </script>
     <h2>Simple tests</h2>
     <h3>Simple test - waiting for <code>window.simple</code></h3>
     <!-- basic sample, just use quickstart with default settings -->
-    <turn-on turn-on='{ "await": "window.simple", "run": "window.simpleCall()"}' />
-    <button onclick="window.simple = 'demo'">Set window.simple</button>
+    <turn-on turn-on='{ "await": ["window.simple", "window.check7Times()"], "run": "window.simpleCall()"}' />
+    <button onclick="setSimpleToDemo()">Set window.simple</button>
     <hr>
 
     <h3>Simple second test - waiting for <code>window.second and window.zwei</code></h3>
@@ -39,7 +49,7 @@
       // it's not necessary, but especially on a page with many turnOns it makes debuging easier
       turnOn
         .new('second')
-        .await(['second', 'zwei'])
+        .await(['window.second', 'window.zwei'])
         .then(() => alert(`second and zwei now exist`));
     </script>
     <button onclick="window.second = 'demo'">Set window.second</button>

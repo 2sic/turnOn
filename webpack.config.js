@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  mode: /* "development", // */ "production",
+  mode: "development", // "production",
   entry: path.resolve(__dirname, './src/index.ts'),
   module: {
     rules: [
