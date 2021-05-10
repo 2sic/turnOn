@@ -1,6 +1,7 @@
-import { ConditionMaker, IsLoaded, Settings, Status, ConditionRaw, DefaultSettings, LogDebug, LogSilent, StatusSummary } from '.';
+import { IsLoaded, Settings, Status, DefaultSettings, LogDebug, LogSilent, StatusSummary } from '.';
 import { FailReject, FailResolve, FailSilent } from './settings';
 import { promiseBoolToStatus } from './promise-boolean-to-status';
+import { ConditionMaker, ConditionRaw } from '..';
 export class TurnOn {
 
   /** The settings applied to this turnOn */
