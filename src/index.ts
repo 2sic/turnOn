@@ -11,4 +11,4 @@ const win = window as any;
 if (!win.turnOn) win.turnOn = new TurnOn();
 
 
-turnOnObserver.load();
+turnOnObserver.activateObserver();

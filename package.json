@@ -1,5 +1,5 @@
 {
-  "name": "turnOn",
+  "name": "turn-on",
   "version": "0.0.1",
   "description": "turnOn is a JavaScript boot helper, which ensures that all dependencies are loaded before your application starts.",
   "main": "index.js",

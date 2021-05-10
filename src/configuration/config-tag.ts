@@ -9,7 +9,9 @@ export class ConfigTag {
     public tag: HTMLElement,
     public config: TurnOnConfigurationStable
   ) 
-  { }
+  { 
+    this.syncDom();
+  }
 
   syncDom() {
     log('syncDom', this);

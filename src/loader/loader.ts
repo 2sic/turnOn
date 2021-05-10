@@ -13,9 +13,20 @@ const config : MutationObserverInit = {
 
 class TurnOnObserver {
 
+  constructor() {
+    this.scanExistingDom();
+  }
+
   public tags = new Array<ConfigTag>();
 
-  public load() {
+  public scanExistingDom() {
+    log('scanExistingDom');
+    const tags = document.querySelectorAll(`[turn-on]`);
+    log('tags:', tags);
+    tags.forEach((t: HTMLElement) => this.tryToLoadTag(t));
+  }
+
+  public activateObserver() {
     log('load');
   
     const observer = new MutationObserver((mutations) => {
@@ -26,32 +37,33 @@ class TurnOnObserver {
         if(m.type != 'childList') return;
         log('hit children');
 
-        m.addedNodes.forEach((node: HTMLElement) => {
-          // Get config and skip if not relevant, or skip if already marked as in the queue
-          const attr = node?.getAttribute?.(attrConfig);
-          if(!attr) return;
-          const skip = node?.getAttribute?.(attrSkip);
-          log(skip);
-          if(skip) return log('skip');
-
-          log('attr', attr);
-          const configOrError = loadConfigurationFromString(attr);
-          if(typeof(configOrError) === 'string') {
-            console.error(configOrError, node, attr);
-            return;
-          }
-          log('stable config')
-          this.add(node, configOrError);
-        });
+        m.addedNodes.forEach((node: HTMLElement) => this.tryToLoadTag(node));
       });
-      this.updateTags();
     });
   
     // observe document for tags which include this. ATM don't observe header
     observer.observe(document.documentElement, config);
   }
 
-  add(node: HTMLElement, config: TurnOnConfigurationStable){
+  tryToLoadTag(node: HTMLElement) {
+    // Get config and skip if not relevant, or skip if already marked as in the queue
+    const attr = node?.getAttribute?.(attrConfig);
+    if(!attr) return;
+    const skip = node?.getAttribute?.(attrSkip);
+    log('skip', skip);
+    if(skip) return log('skip');
+
+    log('attr', attr);
+    const configOrError = loadConfigurationFromString(attr);
+    if(typeof(configOrError) === 'string') {
+      console.error(configOrError, node, attr);
+      return;
+    }
+    log('stable config')
+    this.add(node, configOrError);
+  }
+
+  add(node: HTMLElement, config: TurnOnConfigurationStable) {
     log('add', node, config);
     this.tags.push(new ConfigTag(node, config));
   }
@@ -63,4 +75,7 @@ class TurnOnObserver {
   }
 }
 
-export const turnOnObserver = new TurnOnObserver();
+// Ensure it's only loaded once
+const winAny = window as any;
+if(!winAny.$turnOn) winAny.$turnOn = new TurnOnObserver();
+export const turnOnObserver = winAny.$turnOn;
