@@ -13,7 +13,7 @@ export class ConfigTag {
     this.syncDom();
   }
 
-  syncDom() {
+  syncDom(): void {
     log('syncDom', this);
     const tag = this.tag;
     // set skip if missing and update json in html if not current

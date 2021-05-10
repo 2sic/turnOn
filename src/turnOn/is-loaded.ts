@@ -27,13 +27,17 @@ export class IsLoaded {
   }
 
   public asPromise(): Promise<Status> {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const parent = this;
-    var checkCondition = function(resolve: (value: Status) => void, reject: (reason: unknown | null) => void) {
+    const checkCondition = function(resolve: (value: Status) => void, reject: (reason: unknown | null) => void) {
       // If the condition is met, we're done! 
-      var result = parent.check();
+      const result = parent.check();
 
       // if all is ok (true) then complete the promise
-      if(result.ready) resolve( { ...result, attempts: parent.attempts });
+      if(result.ready) {
+        resolve( { ...result, attempts: parent.attempts });
+        return;
+      }
 
       if(parent.attempts++ >= parent.settings.attempts) {
         resolve({ ...result, message: 'tried up to max attempts: ' + result.message, attempts: parent.attempts });

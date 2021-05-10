@@ -1,7 +1,7 @@
 
 export class MiniTestTest {
 
-  something() {
+  something(): string {
     return "hello";
   }
 }

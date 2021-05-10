@@ -13,14 +13,14 @@ export interface TurnOnConfigurationRaw {
 
 
 export interface TurnOnConfigurationStable {
-  awaits: any[];
+  awaits: unknown[];
 
   run: string;
 
   progress: TurnOnProgres;
 }
 
-export function stabilizeConfiguration(raw: TurnOnConfigurationRaw) {
+export function stabilizeConfiguration(raw: TurnOnConfigurationRaw): TurnOnConfigurationStable {
   if(!raw) return null;
 
   if(!raw.run) return null;

@@ -11,10 +11,10 @@ export const FailReject = 'reject';
 
 export class Settings {
   /** the polling interval - defaults to 100 */
-  interval: number = 100;
+  interval = 100;
 
   /** polling attempts, defaults to 100 */
-  attempts: number = 100;
+  attempts = 100;
  
   /** What to log into the console */
   log: typeof LogError | typeof LogDebug | typeof LogSilent = LogError;
@@ -28,7 +28,7 @@ export class Settings {
   failure: typeof FailReject | typeof FailResolve | typeof FailSilent = FailReject;
 
   /** The name of this turnOn - to better track issues */
-  name: string = 'turnOn';
+  name = 'turnOn';
 }
 
 export const DefaultSettings = new Settings();

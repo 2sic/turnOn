@@ -46,6 +46,7 @@ export class ConditionMaker {
     if (parts.length == 0) return () => new Status(true, 'no keys except maybe windows found', key);
 
     return () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let parent = window as any;
       let match = 'window';
       for (let i = 0; i < parts.length; i++) {

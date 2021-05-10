@@ -24,7 +24,7 @@ export class TurnOn {
    * Create a new turnOn object.
    * Mainly usefuly in global scenarios, to give it a separate name
    */
-  new(nameOrSettings?: Partial<Settings>) {
+  new(nameOrSettings?: Partial<Settings>): TurnOn {
     return new TurnOn(nameOrSettings);
   }
 
@@ -40,23 +40,24 @@ export class TurnOn {
         return promiseBoolToStatus(c);
       } else {
         const condition = this._conditionMaker.make(c);
-        var loaded = new IsLoaded(condition, this.settings);
+        const loaded = new IsLoaded(condition, this.settings);
         return loaded.asPromise();  
       }
     });
 
     // keep the current turnOn-object for reference in methods
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const thisKs = this;
 
     // keep count as it was on start, to ensure it doesn't change any more till we log the error
     const instanceCount = TurnOn.count;
 
-    let flattened = new Promise<StatusSummary>((resolve, reject) => { 
+    const flattened = new Promise<StatusSummary>((resolve, reject) => { 
       // return a single promise for all inner promises which either fail or resolve
       Promise.all(loadedCheckers).then(list => {
 
         // get summary of all details infos
-        var summary = new StatusSummary(list);
+        const summary = new StatusSummary(list);
 
         // by default, log details about what failed
         if (thisKs.settings.log === LogDebug || (!summary.ready && thisKs.settings.log !== LogSilent))
@@ -70,8 +71,8 @@ export class TurnOn {
 
         // depending on the need, either reject/error (default) or resolve with false
         switch (thisKs.settings.failure){
-          case FailReject: reject(summary);
-          case FailResolve: resolve(summary);
+          case FailReject: reject(summary); break;
+          case FailResolve: resolve(summary); break;
           case FailSilent: return;
         }
       })

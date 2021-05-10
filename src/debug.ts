@@ -1,9 +1,9 @@
 
 const debug = true;
 
-export function log(message: string, obj1?: any, obj2?: any) {
+export function log(message: string, obj1?: unknown, obj2?: unknown): void {
   if(!debug) return;
-  if(obj2) return console.log('turn-on: ' + message, obj1, obj2);
-  if(obj1) return console.log('turn-on: ' + message, obj1);
-  console.log('turn-on: ' + message);
+  if(obj2) console.log('turn-on: ' + message, obj1, obj2);
+  else if(obj1)  console.log('turn-on: ' + message, obj1);
+  else console.log('turn-on: ' + message);
 }
