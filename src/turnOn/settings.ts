@@ -8,6 +8,7 @@ export const LogSilent = 'silent';
 export const FailSilent = 'silent';
 export const FailResolve = 'resolve';
 export const FailReject = 'reject';
+export const DefaultName = 'turnOn';
 
 export class Settings {
   /** the polling interval - defaults to 100 */
@@ -28,7 +29,5 @@ export class Settings {
   failure: typeof FailReject | typeof FailResolve | typeof FailSilent = FailReject;
 
   /** The name of this turnOn - to better track issues */
-  name = 'turnOn';
+  name = DefaultName;
 }
-
-export const DefaultSettings = new Settings();

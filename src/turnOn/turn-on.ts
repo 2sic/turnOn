@@ -1,11 +1,11 @@
-import { IsLoaded, Settings, Status, DefaultSettings, LogDebug, LogSilent, StatusSummary } from '.';
-import { FailReject, FailResolve, FailSilent } from './settings';
+import { ConditionAsPromise, Settings, Status, LogDebug, LogSilent, StatusSummary } from '.';
+import { DefaultName, FailReject, FailResolve, FailSilent } from './settings';
 import { promiseBoolToStatus } from './promise-boolean-to-status';
 import { ConditionMaker, ConditionRaw } from '..';
 export class TurnOn {
 
   /** The settings applied to this turnOn */
-  public settings = new Settings();
+  public settings: Settings;
 
   /** Constructor with optional settings */
   constructor(nameOrSettings?: Partial<Settings> | string) {
@@ -16,7 +16,7 @@ export class TurnOn {
     }
 
     if (nameOrSettings)
-      this.settings = { ...this.settings, ...nameOrSettings };
+      this.settings = { ...new Settings(), ...nameOrSettings };
 
     TurnOn.count++;
   }
@@ -41,7 +41,7 @@ export class TurnOn {
         return promiseBoolToStatus(c);
       } else {
         const condition = this._conditionMaker.make(c);
-        const loaded = new IsLoaded(condition, this.settings);
+        const loaded = new ConditionAsPromise(condition, this.settings);
         return loaded.asPromise();  
       }
     });
@@ -84,7 +84,7 @@ export class TurnOn {
 
   public logStatusList(id: number, settings: Settings, statusList: Status[]): void {
     console.log(`turnOn #${id} `
-    + (settings.name !== DefaultSettings.name ? `"${settings.name}" ` : '')
+    + (settings.name !== DefaultName ? `"${settings.name}" ` : '')
     + `couldn't complete because some conditions were not met. See details: `, statusList);
   }
 

@@ -8,4 +8,6 @@ export interface TurnOnConfigurationRaw {
   run: string;
 
   progress?: TurnOnProgres;
+
+  data?: unknown;
 }

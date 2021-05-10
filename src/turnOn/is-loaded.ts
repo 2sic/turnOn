@@ -1,6 +1,6 @@
 import { Settings, Status } from '.';
 
-export class IsLoaded {
+export class ConditionAsPromise {
 
   public settings: Settings;
 

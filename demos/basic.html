@@ -20,13 +20,19 @@
     </script>
     <hr>
 
+    <script>
+      function simpleCall() {
+        alert(`simple now exists and contains ${window.simple}`);
+      }
+    </script>
     <h2>Simple tests</h2>
     <h3>Simple test - waiting for <code>window.simple</code></h3>
+    <turn-on turn-on='{ "await": "simple", "run": "simpleCall"}' />
     <script>
       // basic sample, just use quickstart with default settings
-      turnOn
-        .await('simple')
-        .then(() => alert(`simple now exists and contains ${window.simple}`));
+      // turnOn.new()
+      //   .await('simple')
+      //   .then(simpleCall);
     </script>
     <button onclick="window.simple = 'demo'">Set window.simple</button>
     <hr>

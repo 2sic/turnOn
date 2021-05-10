@@ -1,8 +1,13 @@
-import { TurnOnConfigurationRaw } from '..';
+export const Progress1Loaded = '1-loaded';
+export const Progress2Watching = '2-watching';
+export const Progress3Running = '3-running';
+export const Progress4Completed = '4-completed';
+export const Progress9Cancelled = '9-cancelled';
+export const ProgressError = '9-error';
 
-export type TurnOnProgres = '1-loaded' | '2-watching' | '3-running' | '4-completed' | '9-cancelled' | '9-failed' ;
+export type TurnOnProgres = typeof Progress1Loaded | typeof Progress2Watching  | typeof Progress3Running | typeof Progress4Completed | typeof Progress9Cancelled | typeof ProgressError ;
 
-export interface TurnOnConfigurationStable {
+export interface TurnOnConfiguration {
   await: string[];
 
   run: string;
@@ -10,26 +15,6 @@ export interface TurnOnConfigurationStable {
   progress: TurnOnProgres;
 
   error?: string;
-}
 
-export function stabilizeConfiguration(raw: TurnOnConfigurationRaw): TurnOnConfigurationStable {
-  if(!raw) return null;
-
-  if(!raw.run) return null;
-
-  const awaits = Array.isArray(raw.await) 
-        ? raw.await
-        : raw.await 
-          ? [raw.await]
-          : [];
-
-  // also always await the run command, but without the () as it shouldn't be called to detect if it's ready
-  awaits.push(raw.run.endsWith('()') ? raw.run.substring(0, raw.run.length-2) : raw.run);
-
-  const stable: TurnOnConfigurationStable = {
-    await: awaits,
-    run: raw.run,
-    progress: '1-loaded',
-  }
-  return stable;
+  data?: unknown;
 }

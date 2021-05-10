@@ -1,14 +1,15 @@
-import { TurnOnConfigurationStable, TurnOnProgres } from '../configuration';
+import { TurnOnConfiguration, TurnOnProgres } from '../configuration';
 import { attrConfig, attrSkip } from '..';
 import { log } from '../debug';
 import { TurnOn } from '../turnOn/turn-on';
+import { ProgressError } from '../configuration/configuration';
 
 
 export class ConfigTag {
 
   constructor(
     public tag: HTMLElement,
-    public config: TurnOnConfigurationStable,
+    public config: TurnOnConfiguration,
     public turnOn?: TurnOn
   ) 
   { 
@@ -31,9 +32,9 @@ export class ConfigTag {
     this.syncDom();
   }
 
-  error(err: string): void {
-    this.config.progress = '9-failed';
-    this.config.error = err;
+  error(message: string): void {
+    this.config.progress = ProgressError;
+    this.config.error = message;
     this.syncDom();
     throw this.config.error;
   }
