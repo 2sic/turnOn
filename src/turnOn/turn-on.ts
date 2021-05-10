@@ -82,7 +82,7 @@ export class TurnOn {
     return flattened;
   }
 
-  public logStatusList(id: number, settings: Settings, statusList: Status[]) {
+  public logStatusList(id: number, settings: Settings, statusList: Status[]): void {
     console.log(`turnOn #${id} `
     + (settings.name !== DefaultSettings.name ? `"${settings.name}" ` : '')
     + `couldn't complete because some conditions were not met. See details: `, statusList);

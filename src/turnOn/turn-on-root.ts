@@ -1,6 +1,6 @@
 import { TurnOn } from '.';
 import { TurnOnLoader } from '..';
-import { ConfigTagManager } from '../configuration/config-tag-manager';
+import { ConfigTagManager } from '../config-tags/config-tag-manager';
 
 export class TurnOnRoot extends TurnOn {
   

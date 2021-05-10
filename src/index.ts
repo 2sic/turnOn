@@ -3,6 +3,7 @@ export * from './constants';
 export * from './debug';
 
 export * from './conditions';
+export * from './config-tags';
 export * from './loader';
 
 import { TurnOnRoot } from './turnOn';

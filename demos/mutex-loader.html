@@ -20,7 +20,7 @@
     <div>
       <div>
         <div>
-          <div turn-on='{ "run": "window.mutexStart()" }'>
+          <div turn-on='{ "await": ["window.something"], "run": "window.slow.slower.mutexStart()" }'>
         </div>
       </div>
     </div>
@@ -30,9 +30,24 @@
     <hr>
 
     <script>
+      window.slow = {};
+
+      setTimeout(() => {
+        window.slow.slower = { }
+      }, 1000);
+
+      setTimeout(() => {
+        window.slow.slower.mutexStart = function() {
+          console.log('finally started');
+        }
+      }, 1200);
+
+      setTimeout(() => {
+        window.something = {}
+      }, 2000);
       
       function mutexStart() {
-
+        console.log('we started');
       }
 
     </script>

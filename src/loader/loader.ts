@@ -1,5 +1,4 @@
-import { ConfigTagManager } from '../configuration';
-import { log } from '..';
+import { ConfigTagManager, log } from '..';
 import { TurnOnRoot } from '../turnOn';
 
 /**

@@ -1,4 +1,5 @@
-import { stabilizeConfiguration, TurnOnConfigurationRaw, TurnOnConfigurationStable } from './configuration';
+import { TurnOnConfigurationRaw } from '.';
+import { stabilizeConfiguration, TurnOnConfigurationStable } from '../configuration/configuration';
 
 export function loadConfigurationFromString(attr: string): TurnOnConfigurationStable | string {
   let pretyped: TurnOnConfigurationRaw;

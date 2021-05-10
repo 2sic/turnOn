@@ -1,23 +1,15 @@
+import { TurnOnConfigurationRaw } from '..';
 
 export type TurnOnProgres = '1-loaded' | '2-watching' | '3-running' | '4-completed' | '9-cancelled' | '9-failed' ;
 
-export interface TurnOnConfigurationRaw {
-  /** Things to wait for */
-  await?: string | string[];
-
-  /** What to run when everything is available */
-  run: string;
-
-  progress?: TurnOnProgres;
-}
-
-
 export interface TurnOnConfigurationStable {
-  awaits: unknown[];
+  awaits: string[];
 
   run: string;
 
   progress: TurnOnProgres;
+
+  error?: string;
 }
 
 export function stabilizeConfiguration(raw: TurnOnConfigurationRaw): TurnOnConfigurationStable {
