@@ -43,7 +43,7 @@ export class ConfigTagManager {
   private convertConfigToTurnOn(tag: ConfigTag) {
     const config = tag.config;
     log('convert to turnon');
-    const turnOn = this.root.new().await(config.awaits);
+    const turnOn = this.root.new().await(config.await);
     tag.progress('2-watching');
 
     turnOn.then(() => {
