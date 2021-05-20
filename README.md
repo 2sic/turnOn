@@ -1,6 +1,6 @@
 # turnOn JavaScript Boot Helper
 
-The goal of this small JS library is to help with dynamic loading JavaScripts. It should assist in loading these and waiting till they are loaded. 
+This small JS library helps you to boot JS with dynamic loading JavaScripts _and_ HTML. It assists in loading these and waiting till they are loaded. 
 
 Try / discover it by opening `demos/index.html`
 
@@ -42,37 +42,6 @@ Examples
 * You can also use `<span turn-on='{ "run": "window.myObject.start()", debug: true }' />` to see more details for one specific turnOn
 
 
-
-## More notes - random - don't use as reference!
-
-The API is still far from final, but in the end it should look a bit like this:
-
-```js
-// this is what your typescript code would look like
-new TurnOn()
-  .await('window.yourJsExtension')
-  .then(() => yourJsExtension.start());
-```
-
-More sophisticated samples will be like this:
-
-```typescript
-new TurnOn()
-  .await([
-    // check for keys on window
-    'window.yourJsExtension',
-    'window.$',
-    // do custom check
-    () => window.something?.deeper?.andDeeper != null,
-    // add script tag to load (not implemented yet)
-    'https://some-cdn.org/something.js",
-  ], {
-    interval: 100,
-    maxAttempts: 100,
-  })
-  .then(() => window.yourJsExtension.Start());
-```
-
 ## Nice to Know
 
 The solution is written in Typescript and is plain vanilla, no other dependencies used. 
@@ -99,7 +68,7 @@ Because of CSP etc. we're considering a model like this
 
 or
 
-<div turn-on='{ "await": ["window.yourJsExtension", "window.$", "window.yourApp.verifyReady()"], "run": "window.yourApp.start" }'>
+<div turn-on='{ "await": ["window.yourJsExtension", "window.$", "window.yourApp.verifyReady()"], "run": "window.yourApp.start()" }'>
 
 This would then kick off run once it's available. The call would then include a prepared object with various data to make the run do a better job. It would probably do this:
 
@@ -114,13 +83,4 @@ The object handed into the run would contain a reference to the tag what had thi
   tag: HtmlElement, // the html tag which started the turn-on and might contain extra configuration
 
 }
-```
-
-
-```cs
-
-Needs.Js(...);
-
-
-
 ```
