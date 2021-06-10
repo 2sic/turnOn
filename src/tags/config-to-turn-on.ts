@@ -24,6 +24,7 @@ export function convertConfigToTurnOn(root: TurnOnRoot, tag: ConfigTag): Promise
       return;
     }
 
+    // check exists without trailing "()""
     const checkExists = ExistsProgress.test(run.substr(0, run.length - 2));
 
     // if node not found, stop checking
@@ -37,8 +38,12 @@ export function convertConfigToTurnOn(root: TurnOnRoot, tag: ConfigTag): Promise
     }
 
     // now run it!
-    const fn = checkExists.result as (x: unknown) => unknown;
-    fn({ ...config, tag: tag });
+    // Special: we can't just run the function we got back
+    // because that loses the `this`. So we must run it as a property of the parent
+    const fnScopeObject = checkExists.parent as any;
+    fnScopeObject[checkExists.lastName]({ ...config, tag: tag });
+    // const fn = checkExists.result as (x: unknown) => unknown;
+    // fn({ ...config, tag: tag });
     tag.progress(Progress4Completed);
   });
   return promise;

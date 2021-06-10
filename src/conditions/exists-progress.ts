@@ -1,34 +1,55 @@
 import { windowName } from '..';
 
+/**
+ * Internal Class which will check if a object path like `window.something.other` exists and report back how much of it works.
+ */
 export class ExistsProgress {
   constructor(
+    /** true/talse if it succeeded till the end */
     public success: boolean,
+
+    /** resulting object or method it would call */
     public result: unknown,
+
+    /** The parent of the resulting object - in case the result was a method which needs to be rebound */
+    public parent: unknown,
+
+    /** name of the last element found - important if the last thing is a function*/
+    public lastName: string,
+
+    /** Amount of parts in the full identifier */
     public parts: number,
+
+    /** Amount of parts found */
     public partsFound: number,
-    public matchedKey?: string,
+
+    /** Part-path which already worked */
+    public matchedKey: string,
   ) { }
 
   static test(key: string): ExistsProgress {
-    if(!key) return new ExistsProgress(true, null, 0, 0);
+    if(!key) return new ExistsProgress(true, null, null, null, 0, 0, "");
 
     const parts = key.split('.');
     if(parts[0] !== windowName) throw `Key must start with '${windowName}.' but it's '${key}'`;
 
-    // Only contains window
-    if (parts.length == 1) return new ExistsProgress(true, null, 1, 1);
+    // Only contains window, stop here
+    if (parts.length == 1) return new ExistsProgress(true, window, null, windowName, 1, 1, windowName);
 
     let current = window as any;
+    let parent = null as any;
     let match = windowName;
+    let partName: string;
     for (let i = 1; i < parts.length; i++) {
-      const part = parts[i];
-      current = current[part];
+      partName = parts[i];
+      parent = current;
+      current = current[partName];
       // found, so let's add to list of successful matches
-      match += '.' + part;
+      match += '.' + partName;
 
       // if node not found, stop checking
-      if (!current) return new ExistsProgress(false, null, parts.length, i, match);
+      if (!current) return new ExistsProgress(false, null, parent, partName, parts.length, i, match);
     }
-    return new ExistsProgress(true, current, parts.length, parts.length);
+    return new ExistsProgress(true, current, parent, partName, parts.length, parts.length, match);
   }
 }
