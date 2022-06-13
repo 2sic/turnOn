@@ -7,20 +7,20 @@ import { ExistsProgress } from '../conditions/exists-progress';
 /**
  * 
  */
-export function convertConfigToTurnOn(root: TurnOnRoot, tag: ConfigTag): Promise<Status> {
-  const config = tag.config;
+export function convertConfigToTurnOn(root: TurnOnRoot, configTag: ConfigTag): Promise<Status> {
+  const config = configTag.config;
   log('convert to turnon');
   const turnOn = root.new(config.settings);
   config.settings = turnOn.settings;
   const promise = turnOn.await(config.await);
-  tag.progress(Progress2Watching);
+  configTag.progress(Progress2Watching);
 
   promise.then(() => {
     const run = config.run;
     log('turn on success - will try to run ' + run);
-    tag.progress(Progress3Running);
+    configTag.progress(Progress3Running);
     if(!run.endsWith('()')) {
-      tag.error(`run should end with () but doesn't - can't continue`);
+      configTag.error(`run should end with () but doesn't - can't continue`);
       return;
     }
 
@@ -29,11 +29,11 @@ export function convertConfigToTurnOn(root: TurnOnRoot, tag: ConfigTag): Promise
 
     // if node not found, stop checking
     if (!checkExists.success) {
-      tag.error(`Tried to find object parts for ${checkExists.matchedKey} but didn't get anything.`);
+      configTag.error(`Tried to find object parts for ${checkExists.matchedKey} but didn't get anything.`);
       return;
     }
-    if(typeof(checkExists.result) !== 'function') {
-      tag.error(`Got ${checkExists.partsFound} but it's not a function`);
+    if (typeof(checkExists.result) !== 'function') {
+      configTag.error(`Got ${checkExists.partsFound} but it's not a function`);
       return;
     }
 
@@ -41,10 +41,10 @@ export function convertConfigToTurnOn(root: TurnOnRoot, tag: ConfigTag): Promise
     // Special: we can't just run the function we got back
     // because that loses the `this`. So we must run it as a property of the parent
     const fnScopeObject = checkExists.parent as any;
-    fnScopeObject[checkExists.lastName](config.data, { ...config, tag: tag });
+    fnScopeObject[checkExists.lastName](config.data, { ...config, configTag: configTag, tag: configTag?.tag });
     // const fn = checkExists.result as (x: unknown) => unknown;
     // fn({ ...config, tag: tag });
-    tag.progress(Progress4Completed);
+    configTag.progress(Progress4Completed);
   });
   return promise;
 }
