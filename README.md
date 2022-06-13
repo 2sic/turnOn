@@ -84,3 +84,10 @@ The object handed into the run would contain a reference to the tag what had thi
 
 }
 ```
+
+---
+
+## History
+
+* v0.1.1 initial version
+* v0.1.2 corrected so that `tag` no the context is the real html tag
