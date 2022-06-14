@@ -3,6 +3,7 @@ import { log, Status } from '..';
 import { Progress2Watching, Progress3Running, Progress4Completed } from '../configuration';
 import { TurnOnRoot } from '../turnOn';
 import { ExistsProgress } from '../conditions/exists-progress';
+import { ContextData } from './context-data';
 
 /**
  * 
@@ -41,7 +42,7 @@ export function convertConfigToTurnOn(root: TurnOnRoot, configTag: ConfigTag): P
     // Special: we can't just run the function we got back
     // because that loses the `this`. So we must run it as a property of the parent
     const fnScopeObject = checkExists.parent as any;
-    fnScopeObject[checkExists.lastName](config.data, { ...config, configTag: configTag, tag: configTag?.tag });
+    fnScopeObject[checkExists.lastName](config.data, configTag as ContextData);
     // const fn = checkExists.result as (x: unknown) => unknown;
     // fn({ ...config, tag: tag });
     configTag.progress(Progress4Completed);
