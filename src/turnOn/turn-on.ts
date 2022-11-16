@@ -14,7 +14,7 @@ export class TurnOn {
     if (typeof nameOrSettings === 'string') {
       nameOrSettings = {
         name: nameOrSettings
-      };
+      } as Partial<Settings>;
     }
 
     if (nameOrSettings)
@@ -31,7 +31,17 @@ export class TurnOn {
     return new TurnOn(nameOrSettings);
   }
 
-  public await(conditions: ConditionRaw | ConditionRaw[]): Promise<Status> {
+  /**
+   * Old call
+   * @param conditions 
+   * @returns 
+   * @deprecated in v0.2
+   */
+  public await(conditions: ConditionRaw | ConditionRaw[]): Promise<Status> { 
+    return this.require(conditions);
+  }
+
+  public require(conditions: ConditionRaw | ConditionRaw[]): Promise<Status> {
 
     // re-wrap to ensure we always work with an array
     const conditionsArray = (Array.isArray(conditions)) ? conditions : [conditions];

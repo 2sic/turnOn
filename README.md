@@ -91,3 +91,4 @@ The object handed into the run would contain a reference to the tag what had thi
 
 * v0.1.1 initial version
 * v0.1.2 corrected so that `tag` no the context is the real html tag
+* v0.2.0 changing `awaits` in html tag to be `require` because it's a reserved term in C# and most turnOn is made in C#

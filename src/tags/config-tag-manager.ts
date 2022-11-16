@@ -1,4 +1,4 @@
-import { TurnOnConfiguration } from '../configuration';
+import { TurnOnConfigInternal } from '../configuration';
 import { AttributeTurnOn, AttributeSkip, log } from '..';
 import { TurnOnRoot } from '../turnOn';
 import { ConfigTag, convertConfigToTurnOn } from '.';
@@ -34,7 +34,7 @@ export class ConfigTagManager {
   /**
    * 
    */
-  add(node: HTMLElement, config: TurnOnConfiguration): void {
+  add(node: HTMLElement, config: TurnOnConfigInternal): void {
     log('add', node, config);
     const tag = new ConfigTag(node, config);
     this.tags.push(tag);

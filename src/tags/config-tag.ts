@@ -1,4 +1,4 @@
-import { TurnOnConfiguration, TurnOnProgres } from '../configuration';
+import { TurnOnConfigInternal, TurnOnProgres } from '../configuration';
 import { AttributeTurnOn, AttributeSkip } from '..';
 import { log } from '../debug';
 import { TurnOn } from '../turnOn/turn-on';
@@ -9,7 +9,7 @@ export class ConfigTag {
 
   constructor(
     public tag: HTMLElement,
-    public config: TurnOnConfiguration,
+    public config: TurnOnConfigInternal,
     public turnOn?: TurnOn
   ) 
   { 

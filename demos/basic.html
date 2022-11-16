@@ -22,7 +22,11 @@
 
     <script>
       function simpleCall(config) {
-        alert(`simple now exists and contains ${window.simple}`);
+        alert(`tag with await: simple now exists and contains ${window.simple}`);
+        console.log('config', config);
+      }
+      function simpleCallRequire(config) {
+        alert(`tag with require: simple now exists and contains ${window.simple}`);
         console.log('config', config);
       }
 
@@ -40,6 +44,7 @@
     <h3>Simple test - waiting for <code>window.simple</code></h3>
     <!-- basic sample, just use quickstart with default settings -->
     <turn-on turn-on='{ "await": ["window.simple", "window.check7Times()"], "run": "window.simpleCall()", "debug": true }' />
+    <turn-on turn-on='{ "require": ["window.simple", "window.check7Times()"], "run": "window.simpleCallRequire()", "debug": true }' />
     <button onclick="setSimpleToDemo()">Set window.simple</button>
     <hr>
 
@@ -48,9 +53,16 @@
       // create another turnOn and give it a name
       // it's not necessary, but especially on a page with many turnOns it makes debuging easier
       turnOn
-        .new('second')
+        .new('second-with-await')
         .await(['window.second', 'window.zwei'])
-        .then(() => alert(`second and zwei now exist`));
+        .then(() => alert(`await: second and zwei now exist`));
+
+      // New v0.2
+      turnOn
+        .new('second-with-require')
+        .require(['window.second', 'window.zwei'])
+        .then(() => alert(`require: second and zwei now exist`));
+
     </script>
     <button onclick="window.second = 'demo'">Set window.second</button>
     <button onclick="window.zwei = 'demo'">Set window.zwei</button>
@@ -60,9 +72,14 @@
     <h3>Waiting for <code>window.deep.sub.property</code></h3>
     <script>
       turnOn
-        .new('deep')
+        .new('deep-with-await')
         .await('window.deep.deeper.property')
-        .then(() => alert(`it works and contains ${window.deep.deeper.property}`));
+        .then(() => alert(`with await: it works and contains ${window.deep.deeper.property}`));
+      // new v0.2
+      turnOn
+        .new('deep-with-require')
+        .require('window.deep.deeper.property')
+        .then(() => alert(`with require: it works and contains ${window.deep.deeper.property}`));
     </script>
     <button onclick="window.deep = 'demo'">Set window.deep (nothing should happen)</button>
     <button onclick="window.deep = { deeper : { property: 'deep-prop set' }}">Set window.deep.deeper.property</button>

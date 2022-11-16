@@ -18,12 +18,12 @@
     </p>
     <script>
       // todo
-      turnOn
+      turnOn.new()
         .await([
           new Promise(resolve => setTimeout(() => resolve(true), 1000)).then(() => console.log('first promise done.')),
           new Promise(resolve => setTimeout(() => resolve(true), 2000)).then(() => console.log('second promise done')),
         ])
-        .then(() => alert(`the promises completed`));
+        .then(() => alert(`the promises with await completed`));
     </script>
     <hr>
 

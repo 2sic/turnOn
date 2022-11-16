@@ -8,7 +8,7 @@ export const ProgressError = '9-error';
 
 export type TurnOnProgres = typeof Progress1Loaded | typeof Progress2Watching  | typeof Progress3Running | typeof Progress4Completed | typeof Progress9Cancelled | typeof ProgressError ;
 
-export interface TurnOnConfiguration {
+export interface TurnOnConfigInternal {
   /** Things to wait for - names on window (or sub-objects) or functions on window or sub-objects */
   await: string[];
 
