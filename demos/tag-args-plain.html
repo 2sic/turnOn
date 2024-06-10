@@ -5,7 +5,7 @@
   </head>
 
   <body>
-    <h1>turnOn using Mutex watching for tags with <code>turn-on</code> property and <code>args</code> with data</h1>
+    <h1>turnOn using Mutex watching for tags with <code>turn-on</code> property and <code>args</code> plain, without data</h1>
     <p>
       This sample listens to a tag having a <code>turn-on</code> property.
     </p>
@@ -24,10 +24,6 @@
       <div>
         <div>
           <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgs()", "args": [ "some string", 42 ] }'></turnOn>
-          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgsAndData()", "data": "data-message", "args": [ "some string", 42 ] }'></turnOn>
-          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgsAndData()", "data": { "msg": "data-message" }, "args": [ "some string", 42 ] }'></turnOn>
-          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgsAndData()", "data": { "msg": "data-with-context" }, "args": [ "some string", 42 ], "addContext": "data" }'></turnOn>
-          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgsAndData()", "data": { "msg": "data-with-context-at-end" }, "args": [ "some string", 42 ], "addContext": "end" }'></turnOn>
       </div>
     </div>
 
