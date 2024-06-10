@@ -6,41 +6,52 @@ import { logPrefix } from '../constants';
 
 export class TurnOn {
 
-  /** The settings applied to this turnOn */
-  public settings = new Settings();
+  /** 
+   * The settings for this turnOn
+   */
+  public settings;
 
-  /** Constructor with optional settings */
+  /**
+   * Constructor with optional settings
+   */
   constructor(nameOrSettings?: Partial<Settings> | string) {
+    // Handle case where only a name is provided
     if (typeof nameOrSettings === 'string') {
       nameOrSettings = {
         name: nameOrSettings
       } as Partial<Settings>;
     }
 
+    // merge settings with default settings ??? not sure why
     if (nameOrSettings)
-      this.settings = { ...this.settings, ...nameOrSettings };
+      this.settings = { ...new Settings(), ...nameOrSettings };
 
     TurnOn.count++;
   }
 
   /**
    * Create a new turnOn object.
-   * Mainly usefuly in global scenarios, to give it a separate name
+   * Mainly useful in global scenarios, to give it a separate name
    */
   new(nameOrSettings?: Partial<Settings>): TurnOn {
     return new TurnOn(nameOrSettings);
   }
 
   /**
-   * Old call
+   * Old call, renamed to `require` in v0.2
    * @param conditions 
    * @returns 
-   * @deprecated in v0.2
+   * @deprecated in v0.2, but will probably remain forever, just not documented any more.
    */
   public await(conditions: ConditionRaw | ConditionRaw[]): Promise<Status> { 
     return this.require(conditions);
   }
 
+  /**
+   * Require a set of conditions to be met before executing run.
+   * @param conditions 
+   * @returns 
+   */
   public require(conditions: ConditionRaw | ConditionRaw[]): Promise<Status> {
 
     // re-wrap to ensure we always work with an array

@@ -1,5 +1,5 @@
 
-// this must be a simple const, otherwise the anotation below with typeof won't work
+// this must be a simple const, otherwise the annotation below with typeof won't work
 // https://stackoverflow.com/questions/56263200/how-to-define-string-literal-union-type-from-constants-in-typescript
 export const LogError = 'error';
 export const LogDebug = 'debug';
