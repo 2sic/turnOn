@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../dist/turn-on.js" defer async></script>
+  </head>
+
+  <body>
+    <h1>turnOn using Mutex watching for tags with <code>turn-on</code> property and <code>args</code></h1>
+    <p>
+      This sample listens to a tag having a <code>turn-on</code> property.
+    </p>
+    <hr>
+
+    <h2>Simple Tag</h2>
+    <p>
+      watch the console for many messages to appear.
+      You should see:
+    </p>
+    <ol>
+      <li>An error for the first test, where args is just a string</li>
+      <li>An error for the second test, where args is a number</li>
+    </ol>
+
+    <div>
+      <div>
+        <div>
+          <div turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgs()", "args": "some string" }'></div>
+          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgs()", "args": 42 }'></turnOn>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+  </body>
+</html>

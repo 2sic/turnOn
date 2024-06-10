@@ -30,7 +30,7 @@ Examples
 ### Specs
 
 1. property `run` as of now must always start with `window` and end with `()`  
-    turnOn will verify that the parts leading up to the object exist before it's run. 
+    turnOn will verify that the parts leading up to the object exist before it's run.
 1. property `await` is a string or string[]. It can just be a deep object or a function. Must always start with `window`
     If it's a function name, it will be called and only regarded as ready if the result is `true`.  
     No matter if function or name, turnOn will carefully test/watch each part to see if it exists.
@@ -93,4 +93,4 @@ The object handed into the run would contain a reference to the tag what had thi
 * v0.1.2 corrected so that `tag` no the context is the real html tag
 * v0.2.0 changing `awaits` in html tag to be `require` because it's a reserved term in C# and most turnOn is made in C#
   note: we never bumped the version that's shown
-* v0.3.0 working on `args` variant
+* v0.3.0 adding `args` variant with optional `addContext`

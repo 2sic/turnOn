@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../dist/turn-on.js" defer async></script>
+  </head>
+
+  <body>
+    <h1>turnOn using Mutex watching for tags with <code>turn-on</code> property and <code>args</code></h1>
+    <p>
+      This sample listens to a tag having a <code>turn-on</code> property.
+    </p>
+    <hr>
+
+    <h2>Simple Tag</h2>
+    <p>
+      watch the console for many messages to appear.
+      You should see:
+    </p>
+    <ol>
+      <li>Success for the third test, where args is an array as expected - after a delay</li>
+    </ol>
+
+    <div>
+      <div>
+        <div>
+          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgs()", "args": [ "some string", 42 ] }'></turnOn>
+          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgsAndData()", "data": "data-message", "args": [ "some string", 42 ] }'></turnOn>
+          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgsAndData()", "data": { "msg": "data-message" }, "args": [ "some string", 42 ] }'></turnOn>
+          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgsAndData()", "data": { "msg": "data-with-context" }, "args": [ "some string", 42 ], "addContext": "data" }'></turnOn>
+          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.tagWithArgsAndData()", "data": { "msg": "data-with-context-at-end" }, "args": [ "some string", 42 ], "addContext": "end" }'></turnOn>
+      </div>
+    </div>
+
+
+    </div>
+    <hr>
+
+    <script>
+      // window.debugTurnOn = true;
+      window.slow = {};
+
+      setTimeout(() => {
+        window.slow.slower = { }
+      }, 10);
+
+      setTimeout(() => {
+        window.slow.slower.tagWithArgs = function(msg, favNum) {
+          console.log('tagWithArgs started');
+          console.log('tagWithArgs msg', msg);
+          console.log('tagWithArgs favNum', favNum);
+        }
+
+        window.slow.slower.tagWithArgsAndData = function(data, msg, favNum, contextAtEnd) {
+          console.log('tagWithArgsAndData started');
+          console.log('tagWithArgsAndData data', data);
+          console.log('tagWithArgsAndData msg', msg);
+          console.log('tagWithArgsAndData favNum', favNum);
+          if (contextAtEnd) {
+            console.log('tagWithArgsAndData contextAtEnd', contextAtEnd);
+          }
+        }
+      }, 100);
+
+      setTimeout(() => {
+        window.something = {}
+      }, 200);
+
+    </script>
+
+  </body>
+</html>

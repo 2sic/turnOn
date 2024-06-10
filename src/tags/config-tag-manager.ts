@@ -11,9 +11,7 @@ export class ConfigTagManager {
   
   public tags = new Array<ConfigTag>();
 
-  constructor(public root: TurnOnRoot) {
-    
-  }
+  constructor(public root: TurnOnRoot) {}
 
 
   tryToLoadTag(node: HTMLElement): void {

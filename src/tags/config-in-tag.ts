@@ -1,10 +1,13 @@
-import { TurnOnProgress } from '../configuration/configuration';
+import { AddContextLocation } from '../configuration/configuration';
 import { Settings } from '../turnOn/settings';
 
+/**
+ * Configuration for a turn-on, the way it's added from the public API.
+ */
 export interface TurnOnConfiguration {
   /**
    * Things to wait for - till v0.1.2 - deprecated
-   * @deprecated in v0.2
+   * @deprecated in v0.2 - use `require` instead
    */
   await?: string | string[];
 
@@ -26,9 +29,22 @@ export interface TurnOnConfiguration {
    */
   run: string;
 
-  progress?: TurnOnProgress;
-
+  /** 
+   * Optional: data to give the function once it starts
+   * 
+   * If provided together with `args`, then this will be the first argument.
+   */
   data?: unknown;
 
-  settings?: Partial<Settings>
+  /**
+   * Optional: data as args for the function
+   * New in v0.3.0.
+   * 
+   * When provided together with `data`, data will be prepended.
+   */
+  args?: unknown[];
+
+  settings?: Partial<Settings>;
+
+  addContext?: AddContextLocation;
 }

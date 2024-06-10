@@ -8,6 +8,8 @@ export const ProgressError = '9-error';
 
 export type TurnOnProgress = typeof Progress1Loaded | typeof Progress2Watching  | typeof Progress3Running | typeof Progress4Completed | typeof Progress9Cancelled | typeof ProgressError ;
 
+export type AddContextLocation = true | false | 'data' | 'end';
+
 export interface TurnOnConfigInternal {
   /** Things to wait for - names on window (or sub-objects) or functions on window or sub-objects */
   await: string[];
@@ -29,6 +31,16 @@ export interface TurnOnConfigInternal {
 
   /** Optional data to give the function once it starts */
   data?: unknown;
+
+  /**
+   * Optional: data as args for the function
+   * New in v0.3.0.
+   * 
+   * When provided, data will be ignored?
+   */
+  args?: unknown[];
+
+  addContext: AddContextLocation;
 
   /** Settings used for this turn-on */
   settings?: Settings
