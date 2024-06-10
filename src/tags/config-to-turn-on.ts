@@ -1,9 +1,10 @@
-import { ConfigTag } from '.';
-import { log, Status } from '..';
-import { Progress2Watching, Progress3Running, Progress4Completed } from '../configuration';
-import { TurnOnRoot } from '../turnOn';
 import { ExistsProgress } from '../conditions/exists-progress';
 import { ContextData } from './context-data';
+import { Progress2Watching, Progress3Running, Progress4Completed } from '../configuration/configuration';
+import { ConfigTag } from './config-tag';
+import { Status } from '../status/status';
+import { log } from '../debug';
+import { TurnOnRoot } from '../turnOn/turn-on-root';
 
 /**
  * 

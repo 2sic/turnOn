@@ -1,11 +1,12 @@
-import { windowName } from '..';
+import { WindowName } from '../constants';
+
 
 /**
  * Internal Class which will check if a object path like `window.something.other` exists and report back how much of it works.
  */
 export class ExistsProgress {
   constructor(
-    /** true/talse if it succeeded till the end */
+    /** true/false if it succeeded till the end */
     public success: boolean,
 
     /** resulting object or method it would call */
@@ -31,14 +32,14 @@ export class ExistsProgress {
     if(!key) return new ExistsProgress(true, null, null, null, 0, 0, "");
 
     const parts = key.split('.');
-    if(parts[0] !== windowName) throw `Key must start with '${windowName}.' but it's '${key}'`;
+    if(parts[0] !== WindowName) throw `Key must start with '${WindowName}.' but it's '${key}'`;
 
     // Only contains window, stop here
-    if (parts.length == 1) return new ExistsProgress(true, window, null, windowName, 1, 1, windowName);
+    if (parts.length == 1) return new ExistsProgress(true, window, null, WindowName, 1, 1, WindowName);
 
     let current = window as any;
     let parent = null as any;
-    let match = windowName;
+    let match = WindowName;
     let partName: string;
     for (let i = 1; i < parts.length; i++) {
       partName = parts[i];

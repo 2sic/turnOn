@@ -1,8 +1,11 @@
-import { Settings, LogDebug, LogSilent } from '.';
-import { DefaultName, FailReject, FailResolve, FailSilent } from './settings';
+import { DefaultName, FailReject, FailResolve, FailSilent, LogDebug, LogSilent, Settings } from './settings';
 import { promiseBoolToStatus } from '../watch-promise/promise-boolean-as-promise';
-import { ConditionAsPromise, ConditionMaker, ConditionRaw, Status, StatusSummary } from '..';
-import { logPrefix } from '../constants';
+import { LogPrefix } from '../constants';
+import { Status } from '../status/status';
+import { StatusSummary } from '../status/status-summary';
+import { ConditionRaw } from '../conditions/condition-type';
+import { ConditionAsPromise } from '../watch-promise/condition-as-promise';
+import { ConditionMaker } from '../conditions/condition-maker';
 
 export class TurnOn {
 
@@ -106,7 +109,7 @@ export class TurnOn {
   }
 
   public logStatusList(success: boolean, id: number, settings: Settings, statusList: Status[]): void {
-    console.log(logPrefix + `#${id} `
+    console.log(LogPrefix + `#${id} `
     + (settings.name !== DefaultName ? `"${settings.name}" ` : '')
     + (success ? 'success!' : `couldn't complete because some conditions were not met. See details: `),
      statusList);

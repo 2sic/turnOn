@@ -1,6 +1,6 @@
-import { Condition } from '.';
 import { createNameCondition } from './condition-name';
 import { createFnCondition } from './condition-function';
+import { Condition } from './condition-type';
 
 const namedFnType = 'named fn';
 

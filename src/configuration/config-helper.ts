@@ -1,6 +1,6 @@
-import { Progress1Loaded, ProgressError, TurnOnConfigInternal } from '.';
-import { TurnOnConfiguration } from '..';
+import { TurnOnConfiguration } from '../tags/config-in-tag';
 import { LogMode, Settings, LogError, LogDebug } from '../turnOn/settings';
+import { Progress1Loaded, ProgressError, TurnOnConfigInternal } from './configuration';
 
 export class ConfigHelper {
 

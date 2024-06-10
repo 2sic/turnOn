@@ -1,6 +1,7 @@
-import { Settings, TurnOn } from '.';
-import { TagLoader } from '..';
 import { ConfigTagManager } from '../tags/config-tag-manager';
+import { TagLoader } from '../tags/tag-loader';
+import { Settings } from './settings';
+import { TurnOn } from './turn-on';
 
 export class TurnOnRoot {
   

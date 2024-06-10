@@ -6,7 +6,7 @@ export const Progress4Completed = '4-completed';
 export const Progress9Cancelled = '9-cancelled';
 export const ProgressError = '9-error';
 
-export type TurnOnProgres = typeof Progress1Loaded | typeof Progress2Watching  | typeof Progress3Running | typeof Progress4Completed | typeof Progress9Cancelled | typeof ProgressError ;
+export type TurnOnProgress = typeof Progress1Loaded | typeof Progress2Watching  | typeof Progress3Running | typeof Progress4Completed | typeof Progress9Cancelled | typeof ProgressError ;
 
 export interface TurnOnConfigInternal {
   /** Things to wait for - names on window (or sub-objects) or functions on window or sub-objects */
@@ -22,7 +22,7 @@ export interface TurnOnConfigInternal {
   run: string;
 
   /** Information how far processing of this configuration has commenced */
-  progress: TurnOnProgres;
+  progress: TurnOnProgress;
 
   /** Possible error information */
   error?: string;

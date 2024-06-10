@@ -1,4 +1,5 @@
-import { Status } from '..';
+import { Status } from '../status/status';
+
 
 export function promiseBoolToStatus(boolPromise: Promise<boolean>): Promise<Status> {
   return new Promise<Status>((resolve, reject) => {

@@ -1,8 +1,11 @@
-import { TurnOnConfigInternal } from '../configuration';
-import { AttributeTurnOn, AttributeSkip, log } from '..';
-import { TurnOnRoot } from '../turnOn';
-import { ConfigTag, convertConfigToTurnOn } from '.';
-import { ConfigHelper, ProgressError } from '../configuration';
+import { ConfigHelper } from '../configuration/config-helper';
+import { ProgressError, TurnOnConfigInternal } from '../configuration/configuration';
+import { AttributeSkip, AttributeTurnOn } from '../constants';
+import { ConfigTag } from './config-tag';
+import { log } from '../debug';
+import { convertConfigToTurnOn } from './config-to-turn-on';
+import { TurnOnRoot } from '../turnOn/turn-on-root';
+
 
 export class ConfigTagManager {
   

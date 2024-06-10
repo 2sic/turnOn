@@ -1,5 +1,7 @@
-import { Condition, ConditionRaw, createFnCondition, createNameCondition } from '.';
+import { createFnCondition } from './condition-function';
 import { createFunctionNameCondition } from './condition-function-name';
+import { createNameCondition } from './condition-name';
+import { Condition, ConditionRaw } from './condition-type';
 
 /**
  * Internal class to generate is-it-ready checkers

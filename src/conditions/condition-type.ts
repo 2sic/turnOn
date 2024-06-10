@@ -1,4 +1,5 @@
-import { Status } from '..';
+import { Status } from '../status/status';
+
 
 export type Condition = () => Status;
 

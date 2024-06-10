@@ -1,5 +1,5 @@
-import { Condition } from '.';
-import { Status } from '..';
+import { Status } from '../status/status';
+import { Condition } from './condition-type';
 
 /**
  * Create a condition based on a function which will be polled till it returns truthy

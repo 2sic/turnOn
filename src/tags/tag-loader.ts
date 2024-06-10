@@ -1,4 +1,7 @@
-import { ConfigTagManager, log, AttributeTurnOn, AttributeSkip } from '..';
+import { AttributeSkip, AttributeTurnOn } from '../constants';
+import { log } from '../debug';
+import { ConfigTagManager } from './config-tag-manager';
+
 
 const queryForUnprocessedTags = `[${AttributeTurnOn}]:not([${AttributeSkip}])`;
 

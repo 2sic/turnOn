@@ -1,8 +1,7 @@
-import { TurnOnConfigInternal, TurnOnProgres } from '../configuration';
-import { AttributeTurnOn, AttributeSkip } from '..';
 import { log } from '../debug';
 import { TurnOn } from '../turnOn/turn-on';
-import { ProgressError } from '../configuration/configuration';
+import { ProgressError, TurnOnConfigInternal, TurnOnProgress } from '../configuration/configuration';
+import { AttributeSkip, AttributeTurnOn } from '../constants';
 
 
 export class ConfigTag {
@@ -27,7 +26,7 @@ export class ConfigTag {
       tag.setAttribute(AttributeTurnOn, currentSerialized);
   }
 
-  progress(prog: TurnOnProgres): void {
+  progress(prog: TurnOnProgress): void {
     this.config.progress = prog;
     this.syncDom();
   }

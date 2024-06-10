@@ -1,5 +1,7 @@
-import { Condition, ExistsProgress } from '.';
-import { Status, windowName } from '..';
+import { WindowName } from '../constants';
+import { Status } from '../status/status';
+import { Condition } from './condition-type';
+import { ExistsProgress } from './exists-progress';
 
 const statusType = 'window-key';
 
@@ -9,7 +11,7 @@ const statusType = 'window-key';
 export function createNameCondition(key: string): Condition {
   // empty-ish strings - always say it's done
   if (!key) return () => new Status(statusType, true, 'empty key', key);
-  if (key === windowName) return () => new Status(statusType, true, 'no keys except maybe windows found', key);
+  if (key === WindowName) return () => new Status(statusType, true, 'no keys except maybe windows found', key);
 
   return () => {
     const exists = ExistsProgress.test(key);

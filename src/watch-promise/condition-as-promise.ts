@@ -1,5 +1,6 @@
-import { Status } from '..';
-import { Settings } from '../turnOn';
+import { Status } from '../status/status';
+import { Settings } from '../turnOn/settings';
+
 
 const promiseType = 'promise';
 export class ConditionAsPromise {

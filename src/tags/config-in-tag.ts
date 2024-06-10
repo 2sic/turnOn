@@ -1,4 +1,4 @@
-import { TurnOnProgres } from '../configuration';
+import { TurnOnProgress } from '../configuration/configuration';
 import { Settings } from '../turnOn/settings';
 
 export interface TurnOnConfiguration {
@@ -26,7 +26,7 @@ export interface TurnOnConfiguration {
    */
   run: string;
 
-  progress?: TurnOnProgres;
+  progress?: TurnOnProgress;
 
   data?: unknown;
 

@@ -1,5 +1,4 @@
-import { Status } from '.';
-
+import { Status } from './status';
 
 export class StatusSummary extends Status {
 
