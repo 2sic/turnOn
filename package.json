@@ -1,6 +1,6 @@
 {
   "name": "turn-on",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "turnOn is a JavaScript boot helper, which ensures that all dependencies are loaded before your application starts.",
   "main": "index.js",
   "scripts": {
@@ -20,9 +20,9 @@
   "homepage": "https://github.com/iJungleboy/experimental-js-dynamic-loader#readme",
   "devDependencies": {
     "@types/jasmine": "^3.6.11",
-    "@typescript-eslint/eslint-plugin": "^4.22.1",
-    "@typescript-eslint/parser": "^4.22.1",
-    "eslint": "^7.26.0",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/parser": "^7.12.0",
+    "eslint": "^9.4.0",
     "jasmine": "^3.7.0",
     "jasmine-ts-console-reporter": "^3.1.1",
     "ts-loader": "^8.4.0",
