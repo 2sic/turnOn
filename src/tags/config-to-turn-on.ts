@@ -43,9 +43,11 @@ export function convertConfigToTurnOn(root: TurnOnRoot, configTag: ConfigTag): P
     // Special: we can't just run the function we got back
     // because that loses the `this`. So we must run it as a property of the parent
     const fnScopeObject = checkExists.parent as any;
-    fnScopeObject[checkExists.lastName](config.data, { tag: configTag.tag, config: config } as ContextData);
-    // const fn = checkExists.result as (x: unknown) => unknown;
-    // fn({ ...config, tag: tag });
+    fnScopeObject[checkExists.lastName](
+      config.data,
+      { tag: configTag.tag, config: config } as ContextData
+    );
+
     configTag.progress(Progress4Completed);
   });
   return promise;

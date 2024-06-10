@@ -13,14 +13,15 @@
 
     <h2>Simple Tag</h2>
     <p>
-      watch the console for a message to appear.
+      watch the console for many messages to appear.
     </p>
 
     <div>
       <div>
         <div>
-          <div turn-on='{ "await": ["window.something"], "run": "window.slow.slower.mutexStart()" }'>
-        </div>
+          <div turn-on='{ "require": ["window.something"], "run": "window.slow.slower.mutexWithData()", "data": "some string" }'></div>
+          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.mutexWithData()", "data": 42 }'></turnOn>
+          <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.mutexWithData()", "data": { "msg": "some string", "favNum": 42 } }'></turnOn>
       </div>
     </div>
 
@@ -37,15 +38,17 @@
       }, 1000);
 
       setTimeout(() => {
-        window.slow.slower.mutexStart = function() {
-          console.log('finally started');
+        window.slow.slower.mutexWithData = function(data, context) {
+            console.log('we started');
+            console.log('data', data);
+            console.log('context', context);
         }
       }, 1200);
 
       setTimeout(() => {
         window.something = {}
       }, 2000);
-      
+
     </script>
 
   </body>

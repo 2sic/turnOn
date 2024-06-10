@@ -15,11 +15,14 @@
       Important: by default there is a 10 second timeout, so after that you'll see errors in the console, and the watchers will not watch any more. 
       So if you're playing around with this, do note that you'll need to refresh the page a few times to try everything :).
     </p>
-    <script>
-      setTimeout(() => alert("The 10 second timout has now expired, so the normal watchers will stop watching. Refresh the page to try anything else."), 10000);
-    </script>
     <hr>
 
+    <!-- Timeout script to just show an info that turnOn will stop -->
+    <script>
+      setTimeout(() => alert("The 10 second timeout has now expired, so the normal watchers will stop watching. Refresh the page to try anything else."), 10000);
+    </script>
+
+    <!-- Scripts which will be called by various turn-ons -->
     <script>
       function simpleCall(config) {
         alert(`tag with await: simple now exists and contains ${window.simple}`);
@@ -40,6 +43,8 @@
         window.simple = 'demo';
       }
     </script>
+
+    <!-- Simple tests -->
     <h2>Simple tests</h2>
     <h3>Simple test - waiting for <code>window.simple</code></h3>
     <!-- basic sample, just use quickstart with default settings -->
