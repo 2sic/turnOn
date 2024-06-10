@@ -65,11 +65,12 @@ function mergeArgsWithDataAndContext(config: TurnOnConfigInternal, contextData: 
   const data = config.data;
   let fnArgs = config.args;
 
-      
+  log(`mergeArgsWithDataAndContext`, { config, contextData, data, fnArgs })
+
   // if we have data, prepend it to the args, optionally mix with context
   if (config.data != undefined) {
     // merge data with context if addContext is set to `data`
-    const argsData = config.addContext === 'data' && (typeof data === 'object' && !Array.isArray(data) && data !== null)
+    const argsData = config.addContext === 'data' && (data !== null && typeof data === 'object' && !Array.isArray(data))
       ? { ...contextData, ...data }
       : data;
     fnArgs = [argsData, ...fnArgs];

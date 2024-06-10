@@ -76,12 +76,16 @@ export class ConfigHelper {
         ? false
         : true;
 
+    // 5. Get the data object - in classing mode without args, it defaulted to {} but it should not if we have args.
+    const data = raw.data ||
+      raw.args ? undefined : {};
+
     const stable: TurnOnConfigInternal = {
       await: requires,
       debug: raw.debug ?? false,
       run: raw.run,
       progress: Progress1Loaded,
-      data: raw.data || { }, // give empty object so a developer can see this would exist as an option
+      data, // give empty object so a developer can see this would exist as an option
       args: raw.args,
       settings: { ...new Settings(), log: logMode, ...raw.settings },
       addContext,
