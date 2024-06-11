@@ -11,7 +11,7 @@
     </p>
     <hr>
 
-    <h2>Simple Tag</h2>
+    <h2>Simple Tag - note we're using a high speed for debugging 100/200ms</h2>
     <p>
       watch the console for many messages to appear.
     </p>
@@ -19,6 +19,7 @@
     <div>
       <div>
         <div>
+          <turnOn turn-on='{ "run": "window.turnOn.dump()", "data": "some string" }'></turnOn>
           <div turn-on='{ "require": ["window.something"], "run": "window.slow.slower.mutexWithData()", "data": "some string" }'></div>
           <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.mutexWithData()", "data": 42 }'></turnOn>
           <turnOn turn-on='{ "require": ["window.something"], "run": "window.slow.slower.mutexWithData()", "data": { "msg": "some string", "favNum": 42 } }'></turnOn>
@@ -35,7 +36,7 @@
 
       setTimeout(() => {
         window.slow.slower = { }
-      }, 1000);
+      }, 100);
 
       setTimeout(() => {
         window.slow.slower.mutexWithData = function(data, context) {
@@ -47,7 +48,7 @@
 
       setTimeout(() => {
         window.something = {}
-      }, 2000);
+      }, 200);
 
     </script>
 
