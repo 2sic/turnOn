@@ -13,7 +13,7 @@ export class TurnOnRoot {
   {
     this.tagManager = new ConfigTagManager(this);
     this.loader = new TagLoader(this.tagManager);
-    console.log('turnOn v0.3.0 active - it will help boot scripts when ready - set window.debugTurnOn = true for debugging')
+    console.log('turnOn v0.3.0 active. It will help boot scripts when ready. Set window.debugTurnOn = true for debugging.')
   }
 
   /**
@@ -22,5 +22,13 @@ export class TurnOnRoot {
    */
   new(nameOrSettings?: Partial<Settings>): TurnOn {
     return new TurnOn(nameOrSettings);
+  }
+
+  /**
+   * Basic debug
+   * @param args 
+   */
+  dump(...args: any): void {
+    console.log(`turnOn dump() - total args: ${args?.length} - args dump:`, args);
   }
 }
