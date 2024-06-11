@@ -13,7 +13,7 @@ export class TurnOnRoot {
   {
     this.tagManager = new ConfigTagManager(this);
     this.loader = new TagLoader(this.tagManager);
-    console.log('turnOn v0.3.0 active. It will help boot scripts when ready. Set window.debugTurnOn = true for debugging.')
+    console.log('turnOn v0.3.0 active. It helps boot scripts when ready. Set window.debugTurnOn = true for debugging. https://go.2sxc.org/turnon')
   }
 
   /**
