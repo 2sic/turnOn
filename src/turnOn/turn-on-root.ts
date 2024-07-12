@@ -25,7 +25,8 @@ export class TurnOnRoot {
   }
 
   /**
-   * Basic debug
+   * Basic debug.
+   * To be called using <turnOn turn-on='{run: "window.turnOn.dump()", data: { id: 42 }}'></turnOn>
    * @param args 
    */
   dump(...args: any): void {

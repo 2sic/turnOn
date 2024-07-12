@@ -20,11 +20,14 @@ Examples
 <span turn-on='{ "run": "window.myObject.start()", "data": { "id": 27 } }' />
 <span turn-on='{ "run": "window.myObject.start()", "data": { "module": @CmsContext.Module.Id } }' />
 
+<!-- debug the data passed in to see if the data is as expected -->
+<turnOn turn-on='{ "run": "window.turnOn.dump()", "data": { "module": @CmsContext.Module.Id } }' />
+
 <!-- also wait for $ to exist (jQuery) -->
-<span turn-on='{ "await": "window.$", "run": "window.myObject.start()" }' />
+<span turn-on='{ "require": "window.$", "run": "window.myObject.start()" }' />
 
 <!-- wait for jquery and some deeper object -->
-<span turn-on='{ "await": ["window.$", "window.someObject.subObj", "window.something.isReady()"], "run": "window.myObject.start()" }' />
+<span turn-on='{ "require": ["window.$", "window.someObject.subObj", "window.something.isReady()"], "run": "window.myObject.start()" }' />
 ```
 
 ### Specs
@@ -34,6 +37,8 @@ Examples
 1. property `await` is a string or string[]. It can just be a deep object or a function. Must always start with `window`
     If it's a function name, it will be called and only regarded as ready if the result is `true`.  
     No matter if function or name, turnOn will carefully test/watch each part to see if it exists.
+1. property `args` would pass an array of arguments to the function _new v0.3.0_
+1. property `data` passes one object to the run function - this is the classic method, but only works with functions that expect a single object
 
 ### Debugging
 
@@ -44,23 +49,22 @@ Examples
 
 ## Nice to Know
 
-The solution is written in Typescript and is plain vanilla, no other dependencies used. 
+The solution is written in Typescript and is plain vanilla, no other dependencies used.
 
 ## Todo
 
 1. Create NPM package
 1. Ensure NPM package also has type definitions
-1. add feature to get url from CDN etc.
+1. add feature to get url from CDN etc. - kind of like loadJs
 1. possibly also get css from a CDN?
+1. create a special `custom-element` eg. `<turn-on>` which will be replaced with a span and the turn-on will be executed. This could be faster than the current Mutex-based solution.
 
 Notes to follow up
 
 https://gist.github.com/james2doyle/28a59f8692cec6f334773007b31a1523
 
 
-
-
-## Thoughts 2021-05
+## Original Thoughts 2021-05
 
 Because of CSP etc. we're considering a model like this
 
@@ -92,5 +96,5 @@ The object handed into the run would contain a reference to the tag what had thi
 * v0.1.1 initial version
 * v0.1.2 corrected so that `tag` no the context is the real html tag
 * v0.2.0 changing `awaits` in html tag to be `require` because it's a reserved term in C# and most turnOn is made in C#
-  note: we never bumped the version that's shown
+  note: we never bumped the version that's shown, so v0.2.0 still shows v0.1.2
 * v0.3.0 adding `args` variant with optional `addContext`
