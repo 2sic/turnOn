@@ -4,7 +4,7 @@ This small JS library helps you to boot JS with dynamic loading JavaScripts _and
 
 Try / discover it by opening `demos/index.html`
 
-## Version 0.1
+## Version 0.3 used in 2sxc 18.00
 
 The core goal is that no matter which parts are loaded in what order, no errors occur and in the end, things will just load. To make this happen, you need two things
 
